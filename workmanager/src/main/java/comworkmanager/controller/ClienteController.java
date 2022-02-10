@@ -6,14 +6,19 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import comworkmanager.model.Cliente;
 import comworkmanager.service.ClienteService;
 
-@RestController
+@Controller
 @RequestMapping("/cliente")
 public class ClienteController {
+	
+	private final String LISTA_CLIENTI = "/cliente/listaClienti";
+	
 	private final ClienteService clienteService;
 	
 	public ClienteController(ClienteService clienteService) {
@@ -22,20 +27,10 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Cliente>> getAllClienti(){
+	public String getAllClienti(Model model) {
 		List<Cliente> clienti = clienteService.findAllClienti();
-		return new ResponseEntity<>(clienti,HttpStatus.OK);
-	}
-	
-	@PostMapping("/add")
-	public ResponseEntity<Cliente> addCliente(@RequestBody Cliente cliente){
-		Cliente clienteRepo = clienteService.addCliente(cliente);
-		return new ResponseEntity<>(clienteRepo,HttpStatus.CREATED);
-	}
-	
-	@PutMapping("/update")
-	public ResponseEntity<String> updateCliente(@RequestBody Cliente cliente){
-		clienteService.updateCliente(cliente);
-		return new ResponseEntity<>("updated..",HttpStatus.OK);
+		model.addAttribute("clienti", clienti);
+		return LISTA_CLIENTI;
+		
 	}
 }
