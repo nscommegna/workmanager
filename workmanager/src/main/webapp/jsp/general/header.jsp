@@ -29,7 +29,7 @@
           <a class="nav-link" href="#">Gestione fornitori</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Gestione prodotti</a>
+          <a class="nav-link" href="/prodotto/all">Gestione prodotti</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Gestione trasportatori</a>

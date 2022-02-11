@@ -1,18 +1,17 @@
 package comworkmanager.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Prodotto implements Serializable{
+public class QualitaProdotto implements Serializable{
 
 	/**
 	 * 
@@ -23,20 +22,21 @@ public class Prodotto implements Serializable{
 	@Column(nullable = false,updatable = false,name = "id")
 	private Long id;
 	@Column(nullable = false)
-	private String tipo;
+	private String qualita;
 	
-	@OneToMany(mappedBy = "prodotto",fetch = FetchType.EAGER)
-	private Set<QualitaProdotto> qualita;
+	 @ManyToOne
+	 @JoinColumn(name="id_prodotto", nullable=false,insertable = false,updatable = false)
+	 private Prodotto prodotto;
 	
-	public Prodotto() {
+	public QualitaProdotto() {
 		
 	}
 	
 	
-	public Prodotto(String tipo, Set<QualitaProdotto> qualita) {
+	public QualitaProdotto(String qualita,Prodotto p ) {
 		super();
-		this.tipo = tipo;
 		this.qualita = qualita;
+		
 	}
 
 
@@ -46,24 +46,40 @@ public class Prodotto implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-	public Set<QualitaProdotto> getQualita() {
+
+
+	public String getQualita() {
 		return qualita;
 	}
-	public void setQualita(Set<QualitaProdotto> qualita) {
+
+
+	public void setQualita(String qualita) {
 		this.qualita = qualita;
+	}
+
+
+	public Prodotto getProdotto() {
+		return prodotto;
+	}
+
+
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Prodotto [id=" + id + ", tipo=" + tipo + ", qualita=" + qualita + "]";
+		return "QualitaProdotto [id=" + id + ", qualita=" + qualita + ", prodotto=" + prodotto + "]";
 	}
+
+
+	
+
+
+
+	
+	
 	
 	
 	

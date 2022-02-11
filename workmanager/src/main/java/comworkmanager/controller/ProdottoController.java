@@ -1,31 +1,37 @@
 package comworkmanager.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import comworkmanager.enums.EnumTipoMessaggio;
 import comworkmanager.model.Cliente;
+import comworkmanager.model.Prodotto;
+import comworkmanager.model.QualitaProdotto;
 import comworkmanager.service.ClienteService;
+import comworkmanager.service.ProdottoService;
 import comworkmanager.util.Messaggio;
+import comworkmanager.util.Util;
 
 @Controller
 @RequestMapping("/prodotto")
 public class ProdottoController {
 	//page
-	private final String LISTA_CLIENTI = "/prodotto/listaProdotti";
-	private final String NUOVO_CLIENTE = "/prodotto/nuovoProdotto";
-	private final String MODIFICA_CLIENTE = "/prodotto/modificaProdotto";
+	private final String LISTA_PRODOTTI = "/prodotto/listaProdotti";
+	private final String NUOVO_PRODOTTO = "/prodotto/nuovoProdotto";
+	private final String MODIFICA_PRODOTTO = "/prodotto/modificaProdotto";
 	//service
-	private final ClienteService clienteService;
+	private final ProdottoService prodottoService;
 	//constant
 	private final String TITLE_PAGE = "titlePage";
 	
@@ -34,8 +40,8 @@ public class ProdottoController {
 	
 	private static Messaggio msgCorrente;
 	
-	public ProdottoController(ClienteService clienteService) {
-		this.clienteService = clienteService;
+	public ProdottoController(ProdottoService prodottoService) {
+		this.prodottoService = prodottoService;
 	
 	}
 	
@@ -46,63 +52,56 @@ public class ProdottoController {
 		if(msgCorrente != null) {
 			model.addAttribute(MESSAGGIO_KEY,msgCorrente);
 		}
-		List<Cliente> clienti = clienteService.findAllClienti();
-		model.addAttribute("clienti", clienti);
-		model.addAttribute(TITLE_PAGE, "Elenco clienti");
-		return LISTA_CLIENTI;
+		List<Prodotto> prodotti = prodottoService.findAllProdotti();
+		model.addAttribute("prodotti", prodotti);
+		model.addAttribute(TITLE_PAGE, "Elenco prodotti");
+		return LISTA_PRODOTTI;
 		
 	}
 	
 	@GetMapping("/vaiAggiungiProdotto")
 	public String vaiAggiungiCliente(ModelMap model) {
-		model.addAttribute(TITLE_PAGE, "Nuovo cliente");
-		return NUOVO_CLIENTE;
+		model.addAttribute(TITLE_PAGE, "Nuovo prodotto");
+		return NUOVO_PRODOTTO;
 		
 	}
 	
-	@PostMapping("/salvaCliente")
+	@PostMapping("/salvaProdotto")
 	public ModelAndView salvaCliente(ModelMap model,
-			@RequestParam (required = true) String ragioneSociale,
-			@RequestParam String citta,
-			@RequestParam String indirizzo,
-			@RequestParam String partitaIva,
-			@RequestParam String telefono,
-			@RequestParam String luogoConsegna) {
-		
-		Cliente c = new Cliente(ragioneSociale, citta, indirizzo, partitaIva, telefono, luogoConsegna);
-		clienteService.addCliente(c);
-		Messaggio msg =  new Messaggio("Cliente aggiunto con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+			@RequestParam (required = true) String tipo,
+			@RequestParam (required = true) String  qualita
+			) {
+		Set<QualitaProdotto> qualitaSet = new HashSet<QualitaProdotto>();
+		Prodotto p = new Prodotto(tipo,qualitaSet);
+		prodottoService.addProdotto(p);
+		Messaggio msg =  new Messaggio("Prodotto aggiunto con successo", EnumTipoMessaggio.SUCCESS.getTipo());
 		msgCorrente = msg;
-		return new ModelAndView("redirect:/cliente/all");
+		return new ModelAndView("redirect:/prodotto/all");
 		
 	}
 	
-	@GetMapping("/vaiModificaCliente")
+	@GetMapping("/vaiModificaProdotto")
 	public String vaiModificaCliente(ModelMap model,
-			@RequestParam(required = true) String idCliente) {
-		Cliente c = clienteService.findClienteById(Long.valueOf(idCliente));
-		model.addAttribute(TITLE_PAGE, "Modifica Cliente");
-		model.addAttribute("cliente", c);
-		return MODIFICA_CLIENTE;
+			@RequestParam(required = true) String idProdotto) {
+		Prodotto p = prodottoService.findProdottoById(Long.valueOf(idProdotto));
+		model.addAttribute(TITLE_PAGE, "Modifica Prodotto");
+		model.addAttribute("prodotto", p);
+		return MODIFICA_PRODOTTO;
 		
 	}
 	
-	@PostMapping("/modificaCliente")
+	@PostMapping("/modificaProdotto")
 	public ModelAndView modificaCliente(ModelMap model,
-			@RequestParam (required = true) String idCliente,
-			@RequestParam (required = true) String ragioneSociale,
-			@RequestParam String citta,
-			@RequestParam String indirizzo,
-			@RequestParam String partitaIva,
-			@RequestParam String telefono,
-			@RequestParam String luogoConsegna) {
+			@RequestParam (required = true) String idProdotto,
+			@RequestParam (required = true) String tipo,
+			@RequestParam (required = true) String qualita) {
 		
-		Cliente c = new Cliente(ragioneSociale, citta, indirizzo, partitaIva, telefono, luogoConsegna);
-		c.setId(Long.valueOf(idCliente));
-		clienteService.updateCliente(c);
-		Messaggio msg =  new Messaggio("Cliente modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
-		msgCorrente = msg;
-		return new ModelAndView("redirect:/cliente/all");
+		/*Prodotto p = new Prodotto(Util.capitalizeString(tipo),Util.capitalizeString(qualita));
+		p.setId(Long.valueOf(idProdotto));
+		prodottoService.updateProdotto(p);
+		Messaggio msg =  new Messaggio("Prodotto modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;*/
+		return new ModelAndView("redirect:/prodotto/all");
 		
 	}
 	

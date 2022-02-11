@@ -16,6 +16,7 @@ import comworkmanager.enums.EnumTipoMessaggio;
 import comworkmanager.model.Cliente;
 import comworkmanager.service.ClienteService;
 import comworkmanager.util.Messaggio;
+import comworkmanager.util.Util;
 
 @Controller
 @RequestMapping("/cliente")
@@ -69,7 +70,7 @@ public class ClienteController {
 			@RequestParam String telefono,
 			@RequestParam String luogoConsegna) {
 		
-		Cliente c = new Cliente(ragioneSociale, citta, indirizzo, partitaIva, telefono, luogoConsegna);
+		Cliente c = new Cliente(ragioneSociale, Util.capitalizeString(citta), Util.capitalizeString(indirizzo), partitaIva, telefono, luogoConsegna);
 		clienteService.addCliente(c);
 		Messaggio msg =  new Messaggio("Cliente aggiunto con successo", EnumTipoMessaggio.SUCCESS.getTipo());
 		msgCorrente = msg;
@@ -97,7 +98,7 @@ public class ClienteController {
 			@RequestParam String telefono,
 			@RequestParam String luogoConsegna) {
 		
-		Cliente c = new Cliente(ragioneSociale, citta, indirizzo, partitaIva, telefono, luogoConsegna);
+		Cliente c = new Cliente(ragioneSociale, Util.capitalizeString(citta), Util.capitalizeString(indirizzo), partitaIva, telefono, luogoConsegna);
 		c.setId(Long.valueOf(idCliente));
 		clienteService.updateCliente(c);
 		Messaggio msg =  new Messaggio("Cliente modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());

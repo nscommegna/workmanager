@@ -5,7 +5,7 @@
 <div class="container">
   <!-- Content here -->
    <div class="row">
-   		<h3>Nuovo cliente</h3>
+   		<h3>Modifica cliente</h3>
    </div>
    <br>
    <div class="row">
