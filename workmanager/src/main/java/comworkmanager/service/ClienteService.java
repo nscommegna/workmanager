@@ -26,7 +26,9 @@ public class ClienteService {
 		return clienteRepo.findAll();
 	}
 	
-	
+	public Cliente findClienteById(Long idCliente) {
+		 return clienteRepo.findClienteById(idCliente);
+	}
 	
 	public void updateCliente(Cliente cliente) {
 		 clienteRepo.updateCliente(cliente.getRagioneSociale(),cliente.getCitta(),cliente.getIndirizzo(),

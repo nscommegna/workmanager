@@ -20,5 +20,8 @@ public interface ClienteRepo extends JpaRepository<Cliente, Long>{
 			@Param("indirizzo") String indirizzo,@Param("partitaIva") String partitaIva,
 			@Param("telefono") String telefono,@Param("luogoConsegna") String luogoConsegna,@Param("id") Long id);
 
+	@Query("SELECT c FROM Cliente c WHERE c.id=:idCliente")
+	Cliente findClienteById(@Param("idCliente") Long idCliente);
+
 	
 }
