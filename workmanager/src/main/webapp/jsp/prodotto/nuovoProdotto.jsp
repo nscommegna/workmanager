@@ -57,9 +57,30 @@
 <script>
 $( "#btnAddQualita" ).click(function() {
 	var qualita = $( "#qualita" ).val();
-	$( "#qualitaAggregate" ).val(qualita);
-
-	$( "#divQualitaInserite" ).append("<div class='row'><div class='col-md-2'><p>"+qualita+"</div><div class='col-md-1'><button  class='btn btn-sm btn-danger m-2 eliminaQualita' type='button'>Elimina</button></p></div></div>");
+	var qualitaAggregatelenght = $( "#qualitaAggregate" ).val().length;
+	
+	if(qualitaAggregatelenght == 0){
+		$( "#qualitaAggregate" ).val(qualita);
+	}
+	else{
+		$( "#qualitaAggregate" ).val($( "#qualitaAggregate" ).val()+"#"+qualita);
+	}
+	console.log($( "#qualitaAggregate" ).val());
+	
+	$( "#divQualitaInserite" ).append("<div class='newLine row'><div class='col-md-2'><p>"+qualita+"</div><div class='col-md-1'><button data-qualita='"+qualita+"'  class='btn btn-sm btn-danger mr-2 eliminaQualita' type='button'>Elimina</button></p></div></div>");
+	var modal = $( "#modalQualita" ).modal('hide');
 	});
+	
+$('#divQualitaInserite').on('click', '.eliminaQualita', function() {
+	var qualitaDaEliminare = this.getAttribute('data-qualita').trim();
+	var qualitaPresenti = $( "#qualitaAggregate" ).val();
+	var qualitaAggiornateSporche = qualitaPresenti.replace(qualitaDaEliminare,"");
+	var qualitaAggiornatePulite = qualitaAggiornateSporche.replace("##","");
+	 $( "#qualitaAggregate" ).val(qualitaAggiornatePulite);
+	var parentDiv = this.closest( ".newLine" );
+	parentDiv.remove();
+	console.log($( "#qualitaAggregate" ).val());
+});
+
 
 </script>

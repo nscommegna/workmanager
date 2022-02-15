@@ -10,14 +10,16 @@
    <br>
    <div class="row">
 	   	<div class="col-12">
-		   	<form class="row g-3" action="/prodotto/modificaProdotto" method="POST">
+		   	<form class="row g-3" action="/prodotto/modificaNomeProdotto" method="POST">
 				<div class="mb-3">
 				  <label for="ragioneSociale" class="form-label">Tipo</label>
 				  <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Tipo" value="${prodotto.tipo }" required>
 				</div>
 				<div class="mb-3">
 				  <label for="citta" class="form-label">Qualità</label>
-				  <input type="text" class="form-control" id="qualita" name="qualita" placeholder="Qualita" value="${prodotto.qualita }">
+				  <c:forEach items="${prodotto.qualita }" var="qualita">
+				  		<p>${qualita.qualita}</p>
+				  </c:forEach>
 				</div>
 				<input type="text" class="form-control" id="idProdotto" name="idProdotto"  value="${prodotto.id }" hidden="true">
 				<div class="col-12">

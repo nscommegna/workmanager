@@ -1,8 +1,10 @@
 package comworkmanager.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,17 +28,16 @@ public class Prodotto implements Serializable{
 	private String tipo;
 	
 	@OneToMany(mappedBy = "prodotto",fetch = FetchType.EAGER)
-	private Set<QualitaProdotto> qualita;
+	private Set<QualitaProdotto> qualita  = new HashSet<>();
 	
 	public Prodotto() {
 		
 	}
 	
 	
-	public Prodotto(String tipo, Set<QualitaProdotto> qualita) {
+	public Prodotto(String tipo) {
 		super();
 		this.tipo = tipo;
-		this.qualita = qualita;
 	}
 
 
@@ -58,8 +59,18 @@ public class Prodotto implements Serializable{
 	public void setQualita(Set<QualitaProdotto> qualita) {
 		this.qualita = qualita;
 	}
+	
+	public void addQualita(QualitaProdotto qualita) {
+		qualita.setProdotto(this);
+		this.qualita.add(qualita);
+	}
+	
+	public void removeQualita(QualitaProdotto qualita) {
+		qualita.setProdotto(null);
+		this.qualita.remove(qualita);
+	}
 
-
+	
 	@Override
 	public String toString() {
 		return "Prodotto [id=" + id + ", tipo=" + tipo + ", qualita=" + qualita + "]";

@@ -30,7 +30,7 @@ public class ProdottoService {
 	}
 	
 	public void updateProdotto(Prodotto prodotto) {
-		// prodottoRepo.updateProdotto(prodotto.getTipo(),prodotto.getQualita());
+		prodottoRepo.updateProdotto(prodotto.getTipo(),prodotto.getId());
 		return;
 	}
 	

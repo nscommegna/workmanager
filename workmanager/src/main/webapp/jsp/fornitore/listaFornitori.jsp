@@ -12,7 +12,7 @@
 	</div>
   </c:if>
    <div class="row">
-   		<h3>Lista prodotti gestiti</h3>
+   		<h3>Lista fornitori</h3>
    </div>
    <br>
    <div class="row">
@@ -21,22 +21,31 @@
 			
 	        <thead>
 	            <tr>
-	                <th>Tipo</th>
-	                <th>Qualita</th>
+	                <th>Nome</th>
+	                <th>Cognome</th>
+	                <th>Indirizzo</th>
+	                <th>Partita IVA</th>
+	                <th>Telefono</th>
+	                <th>Codice fiscale</th>
+	                <th>Citta</th>
+	                <th>Provincia</th>
+	                <th>CAP</th>
 	                <th>Funzioni</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	            <c:forEach var="prodotto" items="${prodotti }">
+	            <c:forEach var="fornitore" items="${fornitori }">
 	            	<tr>
-		            	<td>${prodotto.tipo}</td>
-		            	<td>
-		            		<c:forEach var="qualita" items="${prodotto.qualita }">
-			            		${qualita.qualita}<br>
-			           		</c:forEach>
-			            </td>
-			           
-			            <td><a class="btn btn-sm btn-primary" href="/prodotto/vaiModificaProdotto?idProdotto=${prodotto.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+		            	<td>${fornitore.nome}</td>
+			            <td>${fornitore.cognome}</td>
+			            <td>${fornitore.indirizzo}</td>
+			            <td>${fornitore.partitaIva}</td>
+			            <td>${fornitore.telefono}</td>
+			            <td>${fornitore.codiceFiscale}</td>
+			            <td>${fornitore.citta}</td>
+			            <td>${fornitore.provincia}</td>
+			            <td>${fornitore.cap}</td>
+			            <td><a class="btn btn-sm btn-primary" href="/fornitore/vaiModificaFornitore?idFornitore=${fornitore.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
@@ -53,7 +62,7 @@ $(document).ready(function() {
 	            {
 	                text: 'Aggiungi nuovo',
 	                action: function ( e, dt, node, config ) {
-	                	window.location.href = "/prodotto/vaiAggiungiProdotto";
+	                	window.location.href = "/fornitore/vaiAggiungiFornitore";
 	                }
 	            }
 	        ]
@@ -63,7 +72,7 @@ $(document).ready(function() {
 	            {
 	                $.ajax({
 	                    type: "post",
-	                    url: "/prodotto/removeMessage",
+	                    url: "/fornitore/removeMessage",
 	                    success: function(msg){      
 	                            console.log(msg);
 	                            $('#cardMsg').hide(); 

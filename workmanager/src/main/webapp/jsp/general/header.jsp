@@ -26,7 +26,7 @@
           <a class="nav-link" href="/cliente/all">Gestione clienti</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Gestione fornitori</a>
+          <a class="nav-link" href="/fornitore/all">Gestione fornitori</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/prodotto/all">Gestione prodotti</a>

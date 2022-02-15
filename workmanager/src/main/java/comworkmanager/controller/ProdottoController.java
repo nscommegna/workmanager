@@ -48,7 +48,7 @@ public class ProdottoController {
 
 	
 	@GetMapping("/all")
-	public String getAllClienti(ModelMap model) {
+	public String getAllProdotti(ModelMap model) {
 		if(msgCorrente != null) {
 			model.addAttribute(MESSAGGIO_KEY,msgCorrente);
 		}
@@ -67,12 +67,18 @@ public class ProdottoController {
 	}
 	
 	@PostMapping("/salvaProdotto")
-	public ModelAndView salvaCliente(ModelMap model,
+	public ModelAndView salvaProdotto(ModelMap model,
 			@RequestParam (required = true) String tipo,
 			@RequestParam (required = true) String  qualita
 			) {
-		Set<QualitaProdotto> qualitaSet = new HashSet<QualitaProdotto>();
-		Prodotto p = new Prodotto(tipo,qualitaSet);
+		Prodotto p = new Prodotto(tipo);
+		String[] qualitaInserite = qualita.split("#");
+		for(int i = 0;i<qualitaInserite.length;i++) {
+			if(qualitaInserite[i].length() != 0) {
+				QualitaProdotto qp = new QualitaProdotto(qualitaInserite[i]);
+				p.addQualita(qp);
+			}
+		}
 		prodottoService.addProdotto(p);
 		Messaggio msg =  new Messaggio("Prodotto aggiunto con successo", EnumTipoMessaggio.SUCCESS.getTipo());
 		msgCorrente = msg;
@@ -81,7 +87,7 @@ public class ProdottoController {
 	}
 	
 	@GetMapping("/vaiModificaProdotto")
-	public String vaiModificaCliente(ModelMap model,
+	public String vaiModificaProdotto(ModelMap model,
 			@RequestParam(required = true) String idProdotto) {
 		Prodotto p = prodottoService.findProdottoById(Long.valueOf(idProdotto));
 		model.addAttribute(TITLE_PAGE, "Modifica Prodotto");
@@ -90,17 +96,16 @@ public class ProdottoController {
 		
 	}
 	
-	@PostMapping("/modificaProdotto")
-	public ModelAndView modificaCliente(ModelMap model,
+	@PostMapping("/modificaNomeProdotto")
+	public ModelAndView modificaNomeProdotto(ModelMap model,
 			@RequestParam (required = true) String idProdotto,
-			@RequestParam (required = true) String tipo,
-			@RequestParam (required = true) String qualita) {
+			@RequestParam (required = true) String tipo) {
 		
-		/*Prodotto p = new Prodotto(Util.capitalizeString(tipo),Util.capitalizeString(qualita));
+		Prodotto p = new Prodotto(tipo);
 		p.setId(Long.valueOf(idProdotto));
 		prodottoService.updateProdotto(p);
 		Messaggio msg =  new Messaggio("Prodotto modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
-		msgCorrente = msg;*/
+		msgCorrente = msg;
 		return new ModelAndView("redirect:/prodotto/all");
 		
 	}

@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -24,8 +24,7 @@ public class QualitaProdotto implements Serializable{
 	@Column(nullable = false)
 	private String qualita;
 	
-	 @ManyToOne
-	 @JoinColumn(name="id_prodotto", nullable=false,insertable = false,updatable = false)
+	 @ManyToOne(fetch = FetchType.LAZY)
 	 private Prodotto prodotto;
 	
 	public QualitaProdotto() {
@@ -33,7 +32,7 @@ public class QualitaProdotto implements Serializable{
 	}
 	
 	
-	public QualitaProdotto(String qualita,Prodotto p ) {
+	public QualitaProdotto(String qualita) {
 		super();
 		this.qualita = qualita;
 		
@@ -68,19 +67,19 @@ public class QualitaProdotto implements Serializable{
 	}
 
 
-	@Override
-	public String toString() {
-		return "QualitaProdotto [id=" + id + ", qualita=" + qualita + ", prodotto=" + prodotto + "]";
-	}
 
 
-	
+	  @Override
+	    public boolean equals(Object o) {
+	        if (this == o) return true;
+	        if (!(o instanceof QualitaProdotto )) return false;
+	        return id != null && id.equals(((QualitaProdotto) o).getId());
+	    }
+	    @Override
+	    public int hashCode() {
+	        return getClass().hashCode();
+	    }
 
 
-
-	
-	
-	
-	
 	
 }

@@ -13,8 +13,8 @@ public interface ProdottoRepo extends JpaRepository<Prodotto, Long>{
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE Prodotto p SET p.tipo =:tipo, p.qualita =:qualita")
-	void updateProdotto(@Param("tipo") String tipo,@Param("qualita") String qualita);
+	@Query("UPDATE Prodotto p SET p.tipo =:tipo where p.id =:id")
+	void updateProdotto(@Param("tipo") String tipo,@Param("id") Long id);
 
 	@Query("SELECT p FROM Prodotto p WHERE p.id=:idProdotto")
 	Prodotto findProdottoById(@Param("idProdotto") Long idProdotto);
