@@ -27,7 +27,7 @@ public class Prodotto implements Serializable{
 	@Column(nullable = false)
 	private String tipo;
 	
-	@OneToMany(mappedBy = "prodotto",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "prodotto",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
 	private Set<QualitaProdotto> qualita  = new HashSet<>();
 	
 	public Prodotto() {

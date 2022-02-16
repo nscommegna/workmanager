@@ -1,9 +1,10 @@
 package comworkmanager.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,17 +24,18 @@ public class Trasportatore implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false,updatable = false,name = "id")
 	private Long id;
+	@Column(nullable = false)
 	private String nome;
 	
-	@OneToMany(mappedBy = "trasportatore",fetch = FetchType.EAGER)
-	private Set<TargheMezzi> targhe; 
+	@OneToMany(mappedBy = "trasportatore",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
+	private Set<Mezzo> mezzi  = new HashSet<>();
 	
 	public Trasportatore() {
 		
 	}
 	
 	
-	public Trasportatore(String nome, List<TargheMezzi> targhe ) {
+	public Trasportatore(String nome) {
 		super();
 		this.nome = nome;
 	}
@@ -45,8 +47,7 @@ public class Trasportatore implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -56,12 +57,24 @@ public class Trasportatore implements Serializable{
 		this.nome = nome;
 	}
 
-	@Override
-	public String toString() {
-		return "Trasportatore [id=" + id + ", nome=" + nome + ", targhe=" + targhe + "]";
+
+	public Set<Mezzo> getMezzi() {
+		return mezzi;
+	}
+	public void setMezzi(Set<Mezzo> mezzi) {
+		this.mezzi = mezzi;
 	}
 	
+	public void addMezzo(Mezzo mezzo) {
+		mezzo.setTrasportatore(this);
+		this.mezzi.add(mezzo);
+	}
 	
+	public void removeMezzo(Mezzo mezzo) {
+		mezzo.setTrasportatore(null);
+		this.mezzi.remove(mezzo);
+	}
+
 	
 	
 	

@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class TargheMezzi implements Serializable{
+public class Mezzo implements Serializable{
 
 	/**
 	 * 
@@ -21,21 +21,21 @@ public class TargheMezzi implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false,updatable = false,name = "id")
 	private Long id;
-	
+	@Column(nullable = false)
 	private String targa;
 	
-	 @ManyToOne
-	 @JoinColumn(name="id_trasportatore", nullable=false,insertable = false,updatable = false)
+	 @ManyToOne(fetch = FetchType.LAZY)
 	 private Trasportatore trasportatore;
 	
-	public TargheMezzi() {
+	public Mezzo() {
 		
 	}
 	
 	
-	public TargheMezzi(String targa ) {
+	public Mezzo(String targa) {
 		super();
 		this.targa = targa;
+		
 	}
 
 
@@ -46,8 +46,7 @@ public class TargheMezzi implements Serializable{
 		this.id = id;
 	}
 
-
-	public String getTarga() {
+	  public String getTarga() {
 		return targa;
 	}
 
@@ -57,15 +56,27 @@ public class TargheMezzi implements Serializable{
 	}
 
 
-	@Override
-	public String toString() {
-		return "TargheMezzi [id=" + id + ", targa=" + targa + "]";
+	public Trasportatore getTrasportatore() {
+		return trasportatore;
 	}
 
 
-	
-	
-	
-	
+	public void setTrasportatore(Trasportatore trasportatore) {
+		this.trasportatore = trasportatore;
+	}
+
+
+	@Override
+	    public boolean equals(Object o) {
+	        if (this == o) return true;
+	        if (!(o instanceof Mezzo )) return false;
+	        return id != null && id.equals(((Mezzo) o).getId());
+	    }
+	    @Override
+	    public int hashCode() {
+	        return getClass().hashCode();
+	    }
+
+
 	
 }
