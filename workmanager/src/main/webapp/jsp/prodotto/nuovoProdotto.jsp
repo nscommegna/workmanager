@@ -52,7 +52,7 @@
     </div>
   </div>
 </div>
-<jsp:include page="../general/footer.jsp"></jsp:include>
+<jsp:include page="../general/subfooter.jsp"></jsp:include>
 
 <script>
 $( "#btnAddQualita" ).click(function() {
@@ -84,3 +84,4 @@ $('#divQualitaInserite').on('click', '.eliminaQualita', function() {
 
 
 </script>
+<jsp:include page="../general/footer.jsp"></jsp:include>

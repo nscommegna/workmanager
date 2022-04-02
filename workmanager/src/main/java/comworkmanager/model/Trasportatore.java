@@ -31,8 +31,6 @@ public class Trasportatore implements Serializable{
 	@OneToMany(mappedBy = "trasportatore",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
 	private Set<Mezzo> mezzi  = new HashSet<>();
 	
-	@OneToMany(mappedBy="trasportatore")
-    private List<Acquisto> acquisti;
 	
 	public Trasportatore() {
 		

@@ -26,7 +26,7 @@ public class Mezzo implements Serializable{
 	@Column(nullable = false)
 	private String targa;
 	
-	 @ManyToOne(fetch = FetchType.LAZY)
+	 @ManyToOne(fetch = FetchType.EAGER)
 	 private Trasportatore trasportatore;
 	
 	 @OneToMany(mappedBy="mezzo")

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../general/header.jsp"></jsp:include>
 
 <div class="container">
@@ -36,9 +37,9 @@
 	        <tbody>
 	            <c:forEach var="acquisto" items="${acquisti }">
 	            	<tr>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
+		            	<td><fmt:formatDate value="${acquisto.dataAcquisto}" pattern="dd/MM/yyyy" /></td>
+		            	<td>${acquisto.fornitore.cognome} ${acquisto.fornitore.nome}</td>
+		            	<td>${acquisto.prodotto.prodotto.tipo} - ${acquisto.prodotto.qualita}</td>
 		            	<td></td>
 		            	<td></td>
 		            	<td></td>
@@ -53,7 +54,8 @@
 	    </div>
    </div>
 </div>
-<jsp:include page="../general/footer.jsp"></jsp:include>
+<jsp:include page="../general/subfooter.jsp"></jsp:include>
+
 <script>
 $(document).ready(function() {
 	 $('#example').DataTable({
@@ -81,3 +83,5 @@ $(document).ready(function() {
 	            });
 } );
 </script>
+
+<jsp:include page="../general/footer.jsp"></jsp:include>

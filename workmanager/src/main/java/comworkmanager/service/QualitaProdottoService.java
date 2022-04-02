@@ -1,6 +1,9 @@
 package comworkmanager.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import comworkmanager.model.Prodotto;
@@ -26,4 +29,11 @@ public class QualitaProdottoService {
 		return;
 	}
 	
+	public List<QualitaProdotto> findAllQualitaProdotto(){
+		return qualitaProdottoRepo.findAll(Sort.by(Sort.Direction.ASC,"prodotto.tipo"));
+	}
+	
+	public QualitaProdotto findQualitaProdottoById(Long idQualitaProdotto) {
+		return qualitaProdottoRepo.findById(idQualitaProdotto).orElse(null);
+	}
 }

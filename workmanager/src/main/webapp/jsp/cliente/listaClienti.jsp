@@ -47,7 +47,9 @@
 	    </div>
    </div>
 </div>
-<jsp:include page="../general/footer.jsp"></jsp:include>
+
+
+<jsp:include page="../general/subfooter.jsp"></jsp:include>
 <script>
 $(document).ready(function() {
 	 $('#example').DataTable({
@@ -75,3 +77,5 @@ $(document).ready(function() {
 	            });
 } );
 </script>
+
+<jsp:include page="../general/footer.jsp"></jsp:include>

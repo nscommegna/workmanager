@@ -1,9 +1,9 @@
 package comworkmanager.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import comworkmanager.model.Cliente;
@@ -23,7 +23,7 @@ public class ClienteService {
 	}
 	
 	public List<Cliente> findAllClienti(){
-		return clienteRepo.findAll();
+		return clienteRepo.findAll(Sort.by(Sort.Direction.ASC, "ragioneSociale"));
 	}
 	
 	public Cliente findClienteById(Long idCliente) {

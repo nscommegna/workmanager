@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,14 +23,13 @@ public class Acquisto implements Serializable{
 	@Column(nullable = false,updatable = false)
 	private Long id;
 	private Date dataAcquisto;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_fornitore")
 	private Fornitore fornitore;
-	private Prodotto prodotto;
-	@ManyToOne
-    @JoinColumn(name="id_trasportatore")
-	private Trasportatore trasportatore;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_qualita_prodotto")
+	private QualitaProdotto prodotto;
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_mezzo")
 	private Mezzo mezzo;
 	private String quantita;
@@ -43,13 +43,12 @@ public class Acquisto implements Serializable{
 		
 	}
 
-	public Acquisto(Date dataAcquisto, Fornitore fornitore, Prodotto prodotto, Trasportatore trasportatore, Mezzo mezzo,
+	public Acquisto(Date dataAcquisto, Fornitore fornitore, QualitaProdotto prodotto, Mezzo mezzo,
 			String quantita, String prezzo, String totale, Cliente cantinaScarico) {
 		super();
 		this.dataAcquisto = dataAcquisto;
 		this.fornitore = fornitore;
 		this.prodotto = prodotto;
-		this.trasportatore = trasportatore;
 		this.mezzo = mezzo;
 		this.quantita = quantita;
 		this.prezzo = prezzo;
@@ -81,21 +80,14 @@ public class Acquisto implements Serializable{
 		this.fornitore = fornitore;
 	}
 
-	public Prodotto getProdotto() {
+	public QualitaProdotto getProdotto() {
 		return prodotto;
 	}
 
-	public void setProdotto(Prodotto prodotto) {
+	public void setProdotto(QualitaProdotto prodotto) {
 		this.prodotto = prodotto;
 	}
 
-	public Trasportatore getTrasportatore() {
-		return trasportatore;
-	}
-
-	public void setTrasportatore(Trasportatore trasportatore) {
-		this.trasportatore = trasportatore;
-	}
 
 	public Mezzo getMezzo() {
 		return mezzo;
@@ -140,7 +132,7 @@ public class Acquisto implements Serializable{
 	@Override
 	public String toString() {
 		return "Acquisto [id=" + id + ", dataAcquisto=" + dataAcquisto + ", fornitore=" + fornitore + ", prodotto="
-				+ prodotto + ", trasportatore=" + trasportatore + ", mezzo=" + mezzo + ", quantita=" + quantita
+				+ prodotto + ", mezzo=" + mezzo + ", quantita=" + quantita
 				+ ", prezzo=" + prezzo + ", totale=" + totale + ", cantinaScarico=" + cantinaScarico + "]";
 	}
 	

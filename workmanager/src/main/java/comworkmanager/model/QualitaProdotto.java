@@ -1,6 +1,7 @@
 package comworkmanager.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class QualitaProdotto implements Serializable{
@@ -24,9 +26,11 @@ public class QualitaProdotto implements Serializable{
 	@Column(nullable = false)
 	private String qualita;
 	
-	 @ManyToOne(fetch = FetchType.LAZY)
+	 @ManyToOne(fetch = FetchType.EAGER)
 	 private Prodotto prodotto;
-	
+	 @OneToMany(mappedBy="cantinaScarico")
+	 private List<Acquisto> acquisti;
+	 
 	public QualitaProdotto() {
 		
 	}

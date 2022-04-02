@@ -3,6 +3,7 @@ package comworkmanager.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import comworkmanager.model.Fornitore;
@@ -34,4 +35,7 @@ public class FornitoreService {
 				 fornitore.getTelefono(),fornitore.getIndirizzo(),fornitore.getCitta(),fornitore.getProvincia(),fornitore.getCap(),fornitore.getId());
 	}
 	
+	public List<Fornitore> findAllFornitoriOrderByCognomeAsc(){
+		return fornitoreRepo.findAll(Sort.by(Sort.Direction.ASC,"cognome"));
+	}
 }
