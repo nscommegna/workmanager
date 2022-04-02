@@ -2,6 +2,7 @@ package comworkmanager.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,6 +30,9 @@ public class Trasportatore implements Serializable{
 	
 	@OneToMany(mappedBy = "trasportatore",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
 	private Set<Mezzo> mezzi  = new HashSet<>();
+	
+	@OneToMany(mappedBy="trasportatore")
+    private List<Acquisto> acquisti;
 	
 	public Trasportatore() {
 		
