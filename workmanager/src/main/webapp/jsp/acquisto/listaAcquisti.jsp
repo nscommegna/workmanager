@@ -14,16 +14,54 @@
   </c:if>
    <div class="row">
    		<h3>Lista acquisti</h3>
+   		<div class="col-md-2">
+   			<button id="btnRicercaAvanzata" class="btn btn-primary pull-right"><i class="fa-solid fa-magnifying-glass"></i>Ricerca avanzata</button>
+   		</div>
+   		<div id="rowRicercaAvanzata" class="row mt-2">
+	   		<form class="row g-3" action="/acquisto/ricercaAvanzata" method="POST">
+	   			<div class="mb-3 col-md-2">
+					  <label for="dataInizio" class="form-label">Data inizio</label>
+					  <input name = "dataInizio" type="date" class="form-control" id="dataInizio" placeholder="dd/MM/yyyy">
+				</div>
+				<div class="mb-3 col-md-2">
+					  <label for="dataFine" class="form-label">Data fine</label>
+					  <input name = "dataFine" type="date" class="form-control" id="dataFine" placeholder="dd/MM/yyyy">
+				</div>
+				<div class="col-md-3">
+						<label for="fornitore" class="form-label">Fornitore</label><br>
+						<select class="select-cliente col-md-12" data-live-search="true" name="fornitore" required>
+						<option value="-1" data-tokens="Non specificare il fornitore">Non specificare il fornitore</option>
+							<c:forEach var="fornitore" items="${fornitori }">
+								<option value="${fornitore.id}" data-tokens="${fornitore.cognome} ${fornitore.nome }">${fornitore.cognome} ${fornitore.nome } - ${fornitore.codiceFiscale}</option>
+							</c:forEach>
+						</select>
+				</div>
+				<div class="col-md-3">
+						<label for="prodottoQualita" class="form-label">Prodotto e Qualita</label><br>
+						<select class="select-prodotto col-md-12" data-live-search="true" name="prodottoQualita" required>
+							<option value="-1" data-tokens="Non specificare il prodotto">Non specificare il prodotto</option>
+							<c:forEach var="qualitaProdotto" items="${qualitaProdotti}">
+								<option value="${qualitaProdotto.id}" data-tokens="${qualitaProdotto.prodotto.tipo} - ${qualitaProdotto.qualita }">${qualitaProdotto.prodotto.tipo} - ${qualitaProdotto.qualita }</option>
+							</c:forEach>
+						</select>
+				</div>
+				<div class="col-md-2">
+				<br>
+				    <button type="submit" class="btn btn-primary">Mostra risultati</button>
+				 </div>
+			</form>
+   		</div>
    </div>
    <br>
    <div class="row">
 	   	<div class="col-12">
+	   	
 			<table id="example">
 			
 	        <thead>
 	            <tr>
 	                <th>Data</th>
-	                <th>Cliente</th>
+	                <th>Fornitore</th>
 	                <th>Prodotto/Qualit&agrave;</th>
 	                <th>Trasportatore</th>
 	                <th>Mezzo</th>
@@ -40,12 +78,12 @@
 		            	<td><fmt:formatDate value="${acquisto.dataAcquisto}" pattern="dd/MM/yyyy" /></td>
 		            	<td>${acquisto.fornitore.cognome} ${acquisto.fornitore.nome}</td>
 		            	<td>${acquisto.prodotto.prodotto.tipo} - ${acquisto.prodotto.qualita}</td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
-		            	<td></td>
+		            	<td>${acquisto.mezzo.trasportatore.nome}</td>
+		            	<td>${acquisto.mezzo.targa}</td>
+		            	<td>${acquisto.quantita}</td>
+		            	<td>${acquisto.prezzo}</td>
+		            	<td>${acquisto.totale}</td>
+		            	<td>${acquisto.cantinaScarico.ragioneSociale}</td>
 			            <td><a class="btn btn-sm btn-primary" href="/acquisto/vaiModificaAcquisto?idAcquisto=${acquisto.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
 		           </tr>
 	            </c:forEach>
@@ -57,7 +95,14 @@
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 
 <script>
+
+var ricercaAvanzataHidden = true;
 $(document).ready(function() {
+	$("#rowRicercaAvanzata").attr("hidden", true);
+	
+	$('.select-cliente').selectpicker();
+	$('.select-prodotto').selectpicker();
+	
 	 $('#example').DataTable({
 	        dom: 'Bfrtip',
 	        buttons: [
@@ -74,13 +119,24 @@ $(document).ready(function() {
 	            {
 	                $.ajax({
 	                    type: "post",
-	                    url: "/cliente/removeMessage",
+	                    url: "/acquisto/removeMessage",
 	                    success: function(msg){      
 	                            console.log(msg);
 	                            $('#cardMsg').hide(); 
 	                    }
 	                });
 	            });
+	 	
+	 $('#btnRicercaAvanzata').click(function (){
+		 if(ricercaAvanzataHidden){
+	 		$("#rowRicercaAvanzata").attr("hidden", false);
+	 		ricercaAvanzataHidden = false;
+		 }
+		 else{
+			 $("#rowRicercaAvanzata").attr("hidden", true);
+			 ricercaAvanzataHidden = true;
+		}
+	  });
 } );
 </script>
 

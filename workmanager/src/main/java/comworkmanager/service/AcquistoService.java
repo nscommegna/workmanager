@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import comworkmanager.model.Acquisto;
+import comworkmanager.modelSpecifications.AcquistoSpecs;
 import comworkmanager.repo.AcquistoRepo;
 
 @Service
@@ -25,4 +26,11 @@ public class AcquistoService {
 		return acquistoRepo.findAll();
 	}
 	
+	public List<Acquisto> findAllAcquisti(AcquistoSpecs as){
+		return acquistoRepo.findAll(as);
+	}
+
+	public Acquisto findAcquistoById(Long idAcquisto) {
+		return acquistoRepo.findById(idAcquisto).orElse(null);
+	}
 }

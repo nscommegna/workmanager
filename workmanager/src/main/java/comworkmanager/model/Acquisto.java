@@ -35,7 +35,7 @@ public class Acquisto implements Serializable{
 	private String quantita;
 	private String prezzo;
 	private String totale;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="id_cantinaScarico")
 	private Cliente cantinaScarico;
 	

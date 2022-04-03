@@ -3,6 +3,7 @@ package comworkmanager.repo;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import comworkmanager.model.Acquisto;
 import comworkmanager.model.Cliente;
 
-public interface AcquistoRepo extends JpaRepository<Acquisto, Long>{
+public interface AcquistoRepo extends JpaRepository<Acquisto, Long>,JpaSpecificationExecutor<Acquisto> {
 	
 //	@Modifying
 //	@Transactional

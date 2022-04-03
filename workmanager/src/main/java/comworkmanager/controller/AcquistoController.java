@@ -22,6 +22,8 @@ import comworkmanager.model.Cliente;
 import comworkmanager.model.Fornitore;
 import comworkmanager.model.Mezzo;
 import comworkmanager.model.QualitaProdotto;
+import comworkmanager.modelSpecifications.AcquistoSearch;
+import comworkmanager.modelSpecifications.AcquistoSpecs;
 import comworkmanager.service.AcquistoService;
 import comworkmanager.service.ClienteService;
 import comworkmanager.service.FornitoreService;
@@ -70,6 +72,59 @@ public class AcquistoController {
 		}
 		List<Acquisto> acquisti = acquistoService.findAllAcquisti();
 		model.addAttribute("acquisti", acquisti);
+		
+		List<Fornitore> fornitori = fornitoreService.findAllFornitoriOrderByCognomeAsc();
+		model.addAttribute("fornitori", fornitori);
+		
+		List<QualitaProdotto> qualitaProdotti = qualitaProdottoService.findAllQualitaProdotto();
+		model.addAttribute("qualitaProdotti", qualitaProdotti);
+		
+		model.addAttribute(TITLE_PAGE, "Elenco acquisti");
+		return LISTA_ACQUISTI;
+		
+	}
+	
+	@PostMapping("/ricercaAvanzata")
+	public String ricercaAvanzata(ModelMap model,
+			@RequestParam (required = false) String dataInizio,
+			@RequestParam (required = false) String dataFine,
+			@RequestParam (required = false) String fornitore,
+			@RequestParam (required = false) String prodottoQualita) throws ParseException {
+		if(msgCorrente != null) {
+			model.addAttribute(MESSAGGIO_KEY,msgCorrente);
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dataInizioDate = null;
+		Date dataFineDate = null;
+		Fornitore f = null;
+		QualitaProdotto qp = null;
+		
+		if(dataInizio != null && !dataInizio.equals("")) {
+			dataInizioDate = sdf.parse(dataInizio);
+		}
+		if(dataFine != null && !dataFine.equals("")) {
+			dataFineDate = sdf.parse(dataFine);
+		}
+		
+		if(fornitore != null && !fornitore.equals("") && !fornitore.equals("-1")) {
+			f = fornitoreService.findFornitoreById(Long.valueOf(fornitore));
+		}
+		
+		if(prodottoQualita != null && !prodottoQualita.equals("") && !prodottoQualita.equals("-1")) {
+			qp = qualitaProdottoService.findQualitaProdottoById(Long.valueOf(prodottoQualita));
+		}
+		AcquistoSearch as = new AcquistoSearch(dataInizioDate, dataFineDate, f, qp);
+		AcquistoSpecs aspec = new AcquistoSpecs(as);
+		List<Acquisto> acquisti = acquistoService.findAllAcquisti(aspec);
+		model.addAttribute("acquisti", acquisti);
+		
+		List<Fornitore> fornitori = fornitoreService.findAllFornitoriOrderByCognomeAsc();
+		model.addAttribute("fornitori", fornitori);
+		
+		List<QualitaProdotto> qualitaProdotti = qualitaProdottoService.findAllQualitaProdotto();
+		model.addAttribute("qualitaProdotti", qualitaProdotti);
+		
 		model.addAttribute(TITLE_PAGE, "Elenco acquisti");
 		return LISTA_ACQUISTI;
 		
@@ -141,12 +196,18 @@ public class AcquistoController {
 		
 	}
 	
-	@GetMapping("/vaiModificaCliente")
+	@GetMapping("/vaiModificaAcquisto")
 	public String vaiModificaCliente(ModelMap model,
-			@RequestParam(required = true) String idCliente) {
-		//Cliente c = clienteService.findClienteById(Long.valueOf(idCliente));
-		model.addAttribute(TITLE_PAGE, "Modifica Cliente");
-		model.addAttribute("cliente", 1);
+			@RequestParam(required = true) String idAcquisto) {
+		Acquisto acquisto = acquistoService.findAcquistoById(Long.valueOf(idAcquisto));
+		model.addAttribute(TITLE_PAGE, "Modifica acquisto");
+		model.addAttribute("acquisto", acquisto);
+		
+		List<Cliente> clienti = clienteService.findAllClienti();
+		model.addAttribute("clienti", clienti);
+		
+		List<Mezzo> mezzi = mezzoService.findAll();
+		model.addAttribute("mezzi", mezzi);
 		return MODIFICA_ACQUISTO;
 		
 	}
