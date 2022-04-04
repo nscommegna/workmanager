@@ -2,7 +2,6 @@ package comworkmanager.controller;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +23,7 @@ import comworkmanager.model.Cliente;
 import comworkmanager.model.Fornitore;
 import comworkmanager.model.Mezzo;
 import comworkmanager.model.QualitaProdotto;
+import comworkmanager.model.Vendita;
 import comworkmanager.modelSpecifications.AcquistoSearch;
 import comworkmanager.modelSpecifications.AcquistoSpecs;
 import comworkmanager.service.AcquistoService;
@@ -31,22 +31,23 @@ import comworkmanager.service.ClienteService;
 import comworkmanager.service.FornitoreService;
 import comworkmanager.service.MezzoService;
 import comworkmanager.service.QualitaProdottoService;
+import comworkmanager.service.VenditaService;
 import comworkmanager.util.Messaggio;
-import comworkmanager.util.Util;
 
 @Controller
-@RequestMapping("/acquisto")
-public class AcquistoController {
+@RequestMapping("/vendita")
+public class VenditaController {
 	//page
-	private final String LISTA_ACQUISTI = "/acquisto/listaAcquisti";
-	private final String NUOVO_ACQUISTO = "/acquisto/registraAcquisto";
-	private final String MODIFICA_ACQUISTO = "/acquisto/modificaAcquisto";
+	private final String LISTA_ACQUISTI = "/vendita/listaVendite";
+	private final String NUOVO_ACQUISTO = "/vendita/registraVendita";
+	private final String MODIFICA_ACQUISTO = "/vendita/modificaVendita";
 	//service
 	private final AcquistoService acquistoService;
 	private final FornitoreService fornitoreService;
 	private final QualitaProdottoService qualitaProdottoService;
 	private final ClienteService clienteService;
 	private final MezzoService mezzoService;
+	private final VenditaService venditaService;
 	
 	//constant
 	private final String TITLE_PAGE = "titlePage";
@@ -56,13 +57,14 @@ public class AcquistoController {
 	
 	private static Messaggio msgCorrente;
 	
-	public AcquistoController(AcquistoService acquistoService,FornitoreService fornitoreService,QualitaProdottoService qualitaProdottoService
-			,ClienteService clienteService,MezzoService mezzoService) {
+	public VenditaController(AcquistoService acquistoService,FornitoreService fornitoreService,QualitaProdottoService qualitaProdottoService
+			,ClienteService clienteService,MezzoService mezzoService, VenditaService venditaService) {
 		this.acquistoService = acquistoService;
 		this.fornitoreService = fornitoreService;
 		this.qualitaProdottoService = qualitaProdottoService;
 		this.clienteService = clienteService;
 		this.mezzoService = mezzoService;
+		this.venditaService = venditaService;
 	}
 	
 
@@ -72,16 +74,16 @@ public class AcquistoController {
 		if(msgCorrente != null) {
 			model.addAttribute(MESSAGGIO_KEY,msgCorrente);
 		}
-		List<Acquisto> acquisti = acquistoService.findAllAcquisti();
-		model.addAttribute("acquisti", acquisti);
+		List<Vendita> vendite = venditaService.findAllVendite();
+		model.addAttribute("vendite", vendite);
 		
-		List<Fornitore> fornitori = fornitoreService.findAllFornitoriOrderByCognomeAsc();
-		model.addAttribute("fornitori", fornitori);
+		List<Cliente> clienti = clienteService.findAllClienti();
+		model.addAttribute("clienti", clienti);
 		
 		List<QualitaProdotto> qualitaProdotti = qualitaProdottoService.findAllQualitaProdotto();
 		model.addAttribute("qualitaProdotti", qualitaProdotti);
 		
-		model.addAttribute(TITLE_PAGE, "Elenco acquisti");
+		model.addAttribute(TITLE_PAGE, "Elenco vendite");
 		return LISTA_ACQUISTI;
 		
 	}

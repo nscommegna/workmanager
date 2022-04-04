@@ -31,6 +31,10 @@ public class Mezzo implements Serializable{
 	
 	 @OneToMany(mappedBy="mezzo")
 	 private List<Acquisto> acquisti;
+	 
+	 @OneToMany(mappedBy="mezzo")
+	 private List<Vendita> vendita;
+	 
 	public Mezzo() {
 		
 	}

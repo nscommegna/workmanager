@@ -10,7 +10,7 @@ public class WorkmanagerApplication {
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(WorkmanagerApplication.class, args);
-		openHomePage();
+		//openHomePage();
 	}
 	
 	private static void openHomePage() throws IOException {

@@ -45,7 +45,10 @@
 			            <td>${fornitore.citta}</td>
 			            <td>${fornitore.provincia}</td>
 			            <td>${fornitore.cap}</td>
-			            <td><a class="btn btn-sm btn-primary" href="/fornitore/vaiModificaFornitore?idFornitore=${fornitore.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+			            <td>
+			            	<a title="Modifica anagrafica fornitore" class="btn btn-sm btn-primary" href="/fornitore/vaiModificaFornitore?idFornitore=${fornitore.id}"><i class="fa-solid fa-pen-to-square"></i></a>
+			            	<a title="Visualizza acquisti da pagare" class="btn btn-sm btn-primary ml-2" href="/fornitore/vaiPagaFornitore?idFornitore=${fornitore.id}"><i class="fa-solid fa-euro-sign"></i></a>
+			            </td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>

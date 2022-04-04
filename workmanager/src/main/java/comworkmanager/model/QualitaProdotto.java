@@ -28,8 +28,11 @@ public class QualitaProdotto implements Serializable{
 	
 	 @ManyToOne(fetch = FetchType.EAGER)
 	 private Prodotto prodotto;
-	 @OneToMany(mappedBy="cantinaScarico")
+	 @OneToMany(mappedBy="prodotto")
 	 private List<Acquisto> acquisti;
+	 
+	 @OneToMany(mappedBy="prodotto")
+	 private List<Vendita> vendita;
 	 
 	public QualitaProdotto() {
 		

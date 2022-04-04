@@ -1,5 +1,6 @@
 package comworkmanager.controller;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import comworkmanager.enums.EnumTipoMessaggio;
 import comworkmanager.model.Cliente;
 import comworkmanager.model.Fornitore;
+import comworkmanager.model.Pagamento;
 import comworkmanager.model.Prodotto;
 import comworkmanager.model.QualitaProdotto;
 import comworkmanager.service.ClienteService;
 import comworkmanager.service.FornitoreService;
+import comworkmanager.service.PagamentoService;
 import comworkmanager.service.ProdottoService;
 import comworkmanager.util.Messaggio;
 import comworkmanager.util.Util;
@@ -32,8 +35,11 @@ public class FornitoreController {
 	private final String LISTA_FORNITORI = "/fornitore/listaFornitori";
 	private final String NUOVO_FORNITORE = "/fornitore/nuovoFornitore";
 	private final String MODIFICA_FORNITORE = "/fornitore/modificaFornitore";
+	private final String PAGAMENTI_FORNITORE = "/fornitore/pagamentiFornitore";
 	//service
 	private final FornitoreService fornitoreService;
+	//service
+	private final PagamentoService pagamentoService;
 	//constant
 	private final String TITLE_PAGE = "titlePage";
 	
@@ -42,8 +48,9 @@ public class FornitoreController {
 	
 	private static Messaggio msgCorrente;
 	
-	public FornitoreController(FornitoreService fornitoreService) {
+	public FornitoreController(FornitoreService fornitoreService,PagamentoService pagamentoService) {
 		this.fornitoreService = fornitoreService;
+		this.pagamentoService = pagamentoService;
 	
 	}
 	
@@ -117,6 +124,39 @@ public class FornitoreController {
 		Messaggio msg =  new Messaggio("Fornitore modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
 		msgCorrente = msg;
 		return new ModelAndView("redirect:/fornitore/all");
+		
+	}
+	
+	@GetMapping("/vaiPagaFornitore")
+	public String vaiPagaFornitore(ModelMap model,
+			@RequestParam (required = true) String idFornitore) {
+		model.addAttribute(TITLE_PAGE, "Pagamenti fornitore");
+		Fornitore f = fornitoreService.findFornitoreById(Long.valueOf(idFornitore));
+		List<Pagamento> pagamenti = f.getPagamenti();
+		Double totalePagato = Util.calcolaTotalePagamenti(pagamenti);
+		Double totaleAcquisti = Util.calcolaTotaleAcquisti(f.getAcquisti());
+		Double restanteDaPagare = totaleAcquisti - totalePagato;
+		
+		model.addAttribute("restanteDaPagare", restanteDaPagare);
+		model.addAttribute("nPagamenti", pagamenti.size());
+		model.addAttribute("totalePagato", totalePagato);
+		model.addAttribute("fornitore", f);
+		return PAGAMENTI_FORNITORE;
+		
+	}
+	
+	@PostMapping("/effettuaPagamento")
+	public ModelAndView effettuaPagamento(ModelMap model,
+			@RequestParam (required = true) String idFornitore,
+			@RequestParam (required = true) String importo) {
+		model.addAttribute(TITLE_PAGE, "Pagamenti fornitore");
+		Fornitore f = fornitoreService.findFornitoreById(Long.valueOf(idFornitore));
+		Pagamento p = new Pagamento(new Date(), f, Double.valueOf(importo));
+		pagamentoService.addPagamento(p);
+		model.addAttribute("fornitore", f);
+		Messaggio msg =  new Messaggio("Pagamento effettuato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;
+		return new ModelAndView("redirect:/fornitore/vaiPagaFornitore?idFornitore="+f.getId());
 		
 	}
 	

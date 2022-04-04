@@ -1,5 +1,6 @@
 package comworkmanager.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,17 @@ public class AcquistoService {
 
 	public Acquisto findAcquistoById(Long idAcquisto) {
 		return acquistoRepo.findById(idAcquisto).orElse(null);
+	}
+
+	public Double getSumImportoAcquistato() {
+		List<Double> importi = new ArrayList<Double>();
+		Double tot = 0.00;
+		for(Acquisto a:this.findAllAcquisti()) {
+			importi.add(Double.valueOf(a.getTotale()));
+		}
+		for(Double importo : importi) {
+			tot += importo;
+		}
+		return tot;
 	}
 }

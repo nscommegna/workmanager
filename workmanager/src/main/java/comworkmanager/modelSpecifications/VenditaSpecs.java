@@ -16,8 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 import comworkmanager.model.Acquisto;
 import comworkmanager.model.Fornitore;
 import comworkmanager.model.QualitaProdotto;
+import comworkmanager.model.Vendita;
 
-public class AcquistoSpecs  implements Specification<Acquisto>{
+public class VenditaSpecs  implements Specification<Vendita>{
     /**
 	 * 
 	 */
@@ -25,11 +26,11 @@ public class AcquistoSpecs  implements Specification<Acquisto>{
 	private AcquistoSearch criteria;
 
 
-    public AcquistoSpecs(AcquistoSearch ts) {
+    public VenditaSpecs(AcquistoSearch ts) {
         criteria= ts;
     }
 	@Override
-	public Predicate toPredicate(Root<Acquisto> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+	public Predicate toPredicate(Root<Vendita> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 		final List<Predicate> predicates = new ArrayList<Predicate>();
 		if(criteria.getDataInizio()!=null && criteria.getDataFine() != null) {
 			if(criteria.getDataFine().after(criteria.getDataInizio())) {

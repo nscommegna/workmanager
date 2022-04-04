@@ -30,6 +30,9 @@ public class Cliente implements Serializable{
 	@OneToMany(mappedBy="cantinaScarico")
     private List<Acquisto> acquisti;
 	
+	@OneToMany(mappedBy="cliente")
+    private List<Vendita> vendite;
+	
 	public Cliente() {
 		
 	}
@@ -86,6 +89,23 @@ public class Cliente implements Serializable{
 	}
 	public void setLuogoConsegna(String luogoConsegna) {
 		this.luogoConsegna = luogoConsegna;
+	}
+	
+	
+	public List<Acquisto> getAcquisti() {
+		return acquisti;
+	}
+
+	public void setAcquisti(List<Acquisto> acquisti) {
+		this.acquisti = acquisti;
+	}
+
+	public List<Vendita> getVendite() {
+		return vendite;
+	}
+
+	public void setVendite(List<Vendita> vendite) {
+		this.vendite = vendite;
 	}
 
 	@Override

@@ -33,6 +33,10 @@ public class Fornitore implements Serializable{
 	private String cap;
 	@OneToMany(mappedBy="fornitore")
     private List<Acquisto> acquisti;
+	
+	@OneToMany(mappedBy="fornitore")
+    private List<Pagamento> pagamenti;
+	
 	public Fornitore() {
 		
 	}
@@ -129,6 +133,26 @@ public class Fornitore implements Serializable{
 
 	public void setCap(String cap) {
 		this.cap = cap;
+	}
+
+	
+	
+	public List<Acquisto> getAcquisti() {
+		return acquisti;
+	}
+
+	public void setAcquisti(List<Acquisto> acquisti) {
+		this.acquisti = acquisti;
+	}
+	
+	
+	
+	public List<Pagamento> getPagamenti() {
+		return pagamenti;
+	}
+
+	public void setPagamenti(List<Pagamento> pagamenti) {
+		this.pagamenti = pagamenti;
 	}
 
 	@Override
