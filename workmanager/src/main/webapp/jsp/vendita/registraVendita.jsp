@@ -5,21 +5,28 @@
 <div class="container">
   <!-- Content here -->
    <div class="row">
-   		<h3>Nuovo acquisto</h3>
+   		<h3>Nuova vendita</h3>
+   </div>
+    <div class="row">
+   		<h5>Kg di prodotto da vendere totale: ${totaleQuantitaProdottoDaVendere}</h5>
    </div>
    <br>
    <div class="row">
 	   	<div class="col-12">
-		   	<form class="row g-3" action="/acquisto/salvaAcquisto" method="POST">
-				<div class="mb-3 col-md-6">
-				  <label for="dataAcquisto" class="form-label">Data acquisto</label>
-				  <input name = "data" type="date" class="form-control" id="dataAcquisto" name="dataAcquisto" placeholder="dd/MM/yyyy">
+		   	<form class="row g-3" action="/vendita/salvaVendita" method="POST">
+				<div class="col-md-3">
+					<label for="numeroDoc" class="form-label">Numero documento</label><br>
+					<input type="text" class="form-control" id="numeroDoc" name="numeroDoc" placeholder="Numero doc" required>
+				</div>
+				<div class="mb-3 col-md-3">
+				  <label for="dataVendita" class="form-label">Data vendita</label>
+				  <input type="date" class="form-control" id="dataVendita" name="dataVendita" placeholder="dd/MM/yyyy">
 				</div>
 				<div class="col-md-6">
-					<label for="fornitore" class="form-label">Fornitore</label><br>
-					<select class="select-cliente col-md-12" data-live-search="true" name="fornitore" required>
-						<c:forEach var="fornitore" items="${fornitori }">
-							<option value="${fornitore.id}" data-tokens="${fornitore.cognome} ${fornitore.nome }">${fornitore.cognome} ${fornitore.nome } - ${fornitore.codiceFiscale}</option>
+					<label for="cliente" class="form-label">Cliente</label><br>
+					<select class="select-cliente col-md-12" data-live-search="true" name="cliente" required>
+						<c:forEach var="cliente" items="${clienti}">
+							<option value="${cliente.id}" data-tokens="${cliente.ragioneSociale}">${cliente.ragioneSociale}</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -33,24 +40,15 @@
 				</div>
 				<div class="col-md-2">
 					<label for="kili" class="form-label">Quantit&agrave;(kg)</label><br>
-					<input type="number" step=".1" min="0" class="form-control" id="kili" name="kili" placeholder="Kg prodotto" required>
+					<input type="number" max="${totaleQuantitaProdottoDaVendere}" step=".1" min="0" class="form-control" id="kili" name="kili" placeholder="Kg prodotto" required>
 				</div>
 				<div class="col-md-2">
-					<label for="prezzo" class="form-label">Prezzo d'acquisto (&euro;)</label><br>
+					<label for="prezzo" class="form-label">Prezzo di vendita (&euro;)</label><br>
 					<input  type="number" step=".01" min="0" class="form-control" id="prezzo" name="prezzo" placeholder="Prezzo al kg" required>
 				</div>
 				<div class="col-md-2">
-					<label for="totale" class="form-label">Totale</label><br>
-					<input type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" placeholder="Tot da pagare">
-				</div>
-				<div class="col-md-6">
-					<label for="cantinaDestinazione" class="form-label">Cantina di destinazione</label><br>
-					<select class="select-cantina col-md-12" data-live-search="true" name="cantinaDestinazione">
-						<option value="-1" data-tokens="Non specificare la cantina">Non specificare la cantina</option>
-						<c:forEach var="cliente" items="${clienti}">
-							<option value="${cliente.id}" data-tokens="${cliente.ragioneSociale}">${cliente.ragioneSociale}</option>
-						</c:forEach>
-					</select>
+					<label for="totaleParziale" class="form-label">Totale parziale</label><br>
+					<input type="number"  step=".01" min="0" class="form-control" id="totaleParziale" name="totaleParziale" placeholder="Totale parziale">
 				</div>
 				<div class="col-md-6">
 					<label for="mezzo" class="form-label">Mezzo e Trasportatore</label><br>
@@ -61,10 +59,17 @@
 						</c:forEach>
 					</select>
 				</div>
-				
-				
+				<div class="col-md-3">
+					<label for="costoTrasporto" class="form-label">Costo trasporto (&euro;)</label><br>
+					<input  type="number" step=".01" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" required>
+				</div>
+				<div class="col-md-3">
+					<label for="totale" class="form-label">Totale</label><br>
+					<input type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" placeholder="Tot da pagare">
+				</div>
 				<div class="col-12">
-				    <button type="submit" class="btn btn-primary">Registra acquisto</button>
+				<br>
+				    <button type="submit" class="btn btn-primary">Registra vendita</button>
 				 </div>
 			 </form>
 	    </div>
@@ -74,6 +79,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+	$("#totaleParziale").attr("readonly", true);
 	$("#totale").attr("readonly", true);
 	
 	$('.select-cliente').selectpicker();
@@ -83,34 +89,52 @@ $(document).ready(function() {
 });
 //gestione totaleg
 $( "#kili" ).change(function() {
-	  calcolaTotale();
+	calcolaTotaleParziale();
+	calcolaTotale();
 	});
 $( "#prezzo" ).change(function() {
-		calcolaTotale()
+	calcolaTotaleParziale()
+	calcolaTotale();
+	});
+$( "#costoTrasporto" ).change(function() {
+	calcolaTotale();
 	});
 
-function calcolaTotale(){
+function calcolaTotaleParziale(){
 	var prezzo = Number($( "#prezzo" ).val());
 	var kili = Number($( "#kili" ).val());
 	if(prezzo != 0 && kili != 0 ){
 		var totale = prezzo * kili;
+		$("#totaleParziale").attr("readonly", false);
+		$( "#totaleParziale" ).val(totale.toFixed(2));
+		$("#totaleParziale").attr("readonly", true);
+		return;
+	}
+	if(prezzo == 0 || kili != 0 ){
+		$("#totaleParziale").attr("readonly", false);
+		$( "#totaleParziale" ).val('');
+		$("#totaleParziale").attr("readonly", true);
+		return;
+	}
+	if(prezzo != 0 || kili == 0 ){
+		$("#totaleParziale").attr("readonly", false);
+		$( "#totaleParziale" ).val('');
+		$("#totaleParziale").attr("readonly", true);
+		return;
+	}
+}
+
+function calcolaTotale(){
+	var costoTrasporto = Number($( "#costoTrasporto" ).val());
+	var totaleParziale = Number($( "#totaleParziale" ).val());
+	if(costoTrasporto != 0){
+		var totale = costoTrasporto + totaleParziale;
 		$("#totale").attr("readonly", false);
 		$( "#totale" ).val(totale.toFixed(2));
 		$("#totale").attr("readonly", true);
 		return;
 	}
-	if(prezzo == 0 || kili != 0 ){
-		$("#totale").attr("readonly", false);
-		$( "#totale" ).val('');
-		$("#totale").attr("readonly", true);
-		return;
-	}
-	if(prezzo != 0 || kili == 0 ){
-		$("#totale").attr("readonly", false);
-		$( "#totale" ).val('');
-		$("#totale").attr("readonly", true);
-		return;
-	}
+	
 }
 </script>
 <jsp:include page="../general/footer.jsp"></jsp:include>

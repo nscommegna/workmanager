@@ -17,16 +17,19 @@
    </div>
    <br>
    <div class ="row">
-   	<div class="col-md-6">
-   		<h4>Totale importo acquistato : ${totaleImportoAcquistato}</h4>
+   	<div class="col-md-4">
+   		<h5>Totale importo acquistato : &euro; ${totaleImportoAcquistato}</h5>
    	</div>
-   	<div class="col-md-6">
-   		<h4>Totale importo pagato : ${totaleImportoPagato}</h4>
+   	<div class="col-md-4">
+   		<h5>Totale importo pagato : &euro; ${totaleImportoPagato}</h5>
+   	</div>
+   	<div class="col-md-4">
+   		<h5>Totale restante da pagare  : &euro; ${totaleRestanteDaPagare}</h5>
    	</div>
    </div>
    <div class="row row mt-4">
 	   	<div class="col-12">
-			<table id="example">
+			<table id="example" class="display">
 			
 	        <thead>
 	            <tr>

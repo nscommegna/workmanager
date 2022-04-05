@@ -6,6 +6,7 @@ import java.util.List;
 
 import comworkmanager.model.Acquisto;
 import comworkmanager.model.Pagamento;
+import comworkmanager.model.Vendita;
 
 public class Util {
 
@@ -34,6 +35,23 @@ public class Util {
 		}
 	    return roundTo2Digit(tot);
 		
+	}
+	
+	public static Double calcolaTotaleQuantitaProdottoAcquistata(List<Acquisto> acquisto) {
+		Double tot = 0.00;
+		for(Acquisto p : acquisto) {
+			tot += p.getQuantita();
+		}
+	    return roundTo2Digit(tot);
+		
+	}
+	
+	public static Double calcolaTotaleQuantitaProdottoVenduta(List<Vendita> vendita) {
+		Double tot = 0.00;
+		for(Vendita p : vendita) {
+			tot += p.getQuantita();
+		}
+	    return roundTo2Digit(tot);
 	}
 	
 	private static Double roundTo2Digit(Double value) {

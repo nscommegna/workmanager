@@ -53,7 +53,7 @@
           <a class="nav-link" href="/acquisto/all">Acquisti</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Vendite</a>
+          <a class="nav-link" href="/vendita/all">Vendite</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/pagamento/all">Pagamenti</a>

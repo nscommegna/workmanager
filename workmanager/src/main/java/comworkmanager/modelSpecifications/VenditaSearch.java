@@ -2,20 +2,20 @@ package comworkmanager.modelSpecifications;
 
 import java.util.Date;
 
-import comworkmanager.model.Fornitore;
+import comworkmanager.model.Cliente;
 import comworkmanager.model.QualitaProdotto;
 
 public class VenditaSearch {
 	private Date dataInizio;
 	private Date dataFine;
-	private Fornitore fornitore;
+	private Cliente cliente;
 	private QualitaProdotto qualitaProdotto;
 	
-	public VenditaSearch(Date dataInizio, Date dataFine, Fornitore fornitore, QualitaProdotto qualitaProdotto) {
+	public VenditaSearch(Date dataInizio, Date dataFine, Cliente cliente, QualitaProdotto qualitaProdotto) {
 		super();
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
-		this.fornitore = fornitore;
+		this.cliente = cliente;
 		this.qualitaProdotto = qualitaProdotto;
 	}
 
@@ -35,12 +35,12 @@ public class VenditaSearch {
 		this.dataFine = dataFine;
 	}
 
-	public Fornitore getFornitore() {
-		return fornitore;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setFornitore(Fornitore fornitore) {
-		this.fornitore = fornitore;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public QualitaProdotto getQualitaProdotto() {

@@ -13,7 +13,7 @@
 		   	<form class="row g-3" action="/acquisto/salvaAcquisto" method="POST">
 				<div class="mb-3 col-md-6">
 				  <label for="dataAcquisto" class="form-label">Data acquisto</label>
-				  <input name = "data" type="date" class="form-control" id="dataAcquisto" name="dataAcquisto" placeholder="dd/MM/yyyy">
+				  <input type="date" class="form-control" id="dataAcquisto" name="dataAcquisto" placeholder="dd/MM/yyyy">
 				</div>
 				<div class="col-md-6">
 					<label for="fornitore" class="form-label">Fornitore</label><br>
@@ -64,6 +64,7 @@
 				
 				
 				<div class="col-12">
+				<br>
 				    <button type="submit" class="btn btn-primary">Registra acquisto</button>
 				 </div>
 			 </form>

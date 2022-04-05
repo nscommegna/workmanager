@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import comworkmanager.model.Vendita;
@@ -24,7 +25,7 @@ public class VenditaService {
 	}
 	
 	public List<Vendita> findAllVendite(){
-		return venditaRepo.findAll();
+		return venditaRepo.findAll(Sort.by(Sort.Direction.DESC,"dataVendita"));
 	}
 	
 	public List<Vendita> findAllVendite(VenditaSpecs as){

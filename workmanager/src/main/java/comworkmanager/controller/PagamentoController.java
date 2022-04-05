@@ -66,9 +66,10 @@ public class PagamentoController {
 		List<Pagamento> pagamenti = pagamentoService.findAll();
 		Double totaleImportoAcquistato = acquistoService.getSumImportoAcquistato();
 		Double totaleImportoPagato = pagamentoService.getSumImportoPagato();
-		
+		Double totaleRestanteDaPagare = totaleImportoAcquistato - totaleImportoPagato;
 		model.addAttribute("pagamenti", pagamenti);
 		model.addAttribute("totaleImportoAcquistato", totaleImportoAcquistato);
+		model.addAttribute("totaleRestanteDaPagare", totaleRestanteDaPagare);
 		model.addAttribute("totaleImportoPagato", totaleImportoPagato);
 		model.addAttribute(TITLE_PAGE, "Elenco pagamenti");
 		return LISTA_PAGAMENTI;

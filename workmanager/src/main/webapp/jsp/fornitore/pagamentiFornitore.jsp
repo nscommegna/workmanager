@@ -25,7 +25,7 @@
    <br>
    <div class="row">
 	   	<div class="col-md-12">
-			<table id="example">
+			<table id="example" class="display">
 			
 	        <thead>
 	            <tr>
@@ -69,7 +69,7 @@
 	      <div class="modal-body">
 	        	<div class="col-md-12">
 						<label for="importo" class="form-label">Importo da pagare (&euro;)</label><br>
-						<input type="number" max="${restanteDaPagare}" step=".1" min="0" class="form-control" id="importo" name="importo" placeholder="Importo in euro" required>
+						<input type="number" max="${restanteDaPagare}" step=".01" min="0" class="form-control" id="importo" name="importo" placeholder="Importo in euro" required>
 				</div>
 				<input type="text"  class="form-control" id="idFornitore" name="idFornitore" value="${fornitore.id }" hidden>
 	      </div>

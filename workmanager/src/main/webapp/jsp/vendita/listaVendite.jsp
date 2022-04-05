@@ -13,12 +13,12 @@
 	</div>
   </c:if>
    <div class="row">
-   		<h3>Lista acquisti</h3>
+   		<h3>Lista vendite</h3>
    		<div class="col-md-2">
    			<button id="btnRicercaAvanzata" class="btn btn-primary pull-right"><i class="fa-solid fa-magnifying-glass"></i>Ricerca avanzata</button>
    		</div>
    		<div id="rowRicercaAvanzata" class="row mt-2">
-	   		<form class="row g-3" action="/acquisto/ricercaAvanzata" method="POST">
+	   		<form class="row g-3" action="/vendita/ricercaAvanzata" method="POST">
 	   			<div class="mb-3 col-md-2">
 					  <label for="dataInizio" class="form-label">Data inizio</label>
 					  <input name = "dataInizio" type="date" class="form-control" id="dataInizio" placeholder="dd/MM/yyyy">
@@ -28,11 +28,11 @@
 					  <input name = "dataFine" type="date" class="form-control" id="dataFine" placeholder="dd/MM/yyyy">
 				</div>
 				<div class="col-md-3">
-						<label for="fornitore" class="form-label">Fornitore</label><br>
-						<select class="select-cliente col-md-12" data-live-search="true" name="fornitore" required>
-						<option value="-1" data-tokens="Non specificare il fornitore">Non specificare il fornitore</option>
-							<c:forEach var="fornitore" items="${fornitori }">
-								<option value="${fornitore.id}" data-tokens="${fornitore.cognome} ${fornitore.nome }">${fornitore.cognome} ${fornitore.nome } - ${fornitore.codiceFiscale}</option>
+						<label for="fornitore" class="form-label">Cliente</label><br>
+						<select class="select-fornitore col-md-12" data-live-search="true" name="fornitore" required>
+						<option value="-1" data-tokens="Non specificare il cliente">Non specificare il cliente</option>
+							<c:forEach var="cliente" items="${clienti }">
+								<option value="${cliente.id}" data-tokens="${cliente.ragioneSociale}">${cliente.ragioneSociale}</option>
 							</c:forEach>
 						</select>
 				</div>
@@ -56,35 +56,39 @@
    <div class="row">
 	   	<div class="col-12">
 	   	
-			<table id="example">
+			<table id="example" class="display">
 			
 	        <thead>
 	            <tr>
-	                <th>Data</th>
-	                <th>Fornitore</th>
+	            	<th>Numero doc</th>
+	                <th>Data Vendita</th>
+	                <th>Cliente</th>
 	                <th>Prodotto/Qualit&agrave;</th>
 	                <th>Trasportatore</th>
 	                <th>Mezzo</th>
 	                <th>Kg</th>
-	                <th>Prezzo d'acquisto</th>
+	                <th>Prezzo di vendita</th>
+	                <th>Totale parziale</th>
+	                <th>Costo trasporto</th>
 	                <th>Totale</th>
-	                <th>Cantina scarico</th>
 	                <th>Funzioni</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	            <c:forEach var="acquisto" items="${acquisti }">
+	            <c:forEach var="vendita" items="${vendite }">
 	            	<tr>
-		            	<td><fmt:formatDate value="${acquisto.dataAcquisto}" pattern="dd/MM/yyyy" /></td>
-		            	<td>${acquisto.fornitore.cognome} ${acquisto.fornitore.nome}</td>
-		            	<td>${acquisto.prodotto.prodotto.tipo} - ${acquisto.prodotto.qualita}</td>
-		            	<td>${acquisto.mezzo.trasportatore.nome}</td>
-		            	<td>${acquisto.mezzo.targa}</td>
-		            	<td>${acquisto.quantita}</td>
-		            	<td>${acquisto.prezzo}</td>
-		            	<td>${acquisto.totale}</td>
-		            	<td>${acquisto.cantinaScarico.ragioneSociale}</td>
-			            <td><a class="btn btn-sm btn-primary" href="/acquisto/vaiModificaAcquisto?idAcquisto=${acquisto.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+	            		<td>${vendita.numeroDocumento}</td>
+		            	<td><fmt:formatDate value="${vendita.dataVendita}" pattern="dd/MM/yyyy" /></td>
+		            	<td>${vendita.cliente.ragioneSociale}</td>
+		            	<td>${vendita.prodotto.prodotto.tipo} - ${vendita.prodotto.qualita}</td>
+		            	<td>${vendita.mezzo.trasportatore.nome}</td>
+		            	<td>${vendita.mezzo.targa}</td>
+		            	<td>${vendita.quantita}</td>
+		            	<td>&euro; ${vendita.prezzo}</td>
+		            	<td>&euro; ${vendita.totaleParziale}</td>
+		            	<td>&euro; ${vendita.costoTrasporto}</td>
+		            	<td>&euro; ${vendita.totale}</td>
+			            <td><a class="btn btn-sm btn-primary" href="/vendita/vaiModificaVendita?idVendita=${vendita.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
@@ -100,16 +104,16 @@ var ricercaAvanzataHidden = true;
 $(document).ready(function() {
 	$("#rowRicercaAvanzata").attr("hidden", true);
 	
-	$('.select-cliente').selectpicker();
+	$('.select-fornitore').selectpicker();
 	$('.select-prodotto').selectpicker();
 	
 	 $('#example').DataTable({
 	        dom: 'Bfrtip',
 	        buttons: [
 	            {
-	                text: 'Nuovo acquisto',
+	                text: 'Nuova vendita',
 	                action: function ( e, dt, node, config ) {
-	                	window.location.href = "/acquisto/vaiAggiungiAcquisto";
+	                	window.location.href = "/vendita/vaiAggiungiVendita";
 	                }
 	            }
 	        ]
@@ -119,7 +123,7 @@ $(document).ready(function() {
 	            {
 	                $.ajax({
 	                    type: "post",
-	                    url: "/acquisto/removeMessage",
+	                    url: "/vendita/removeMessage",
 	                    success: function(msg){      
 	                            console.log(msg);
 	                            $('#cardMsg').hide(); 

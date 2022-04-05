@@ -17,7 +17,7 @@
    <br>
    <div class="row">
 	   	<div class="col-12">
-			<table id="example">
+			<table id="example" class="display">
 			
 	        <thead>
 	            <tr>
