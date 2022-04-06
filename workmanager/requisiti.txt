@@ -1,0 +1,49 @@
+Requisiti cassasno gestionale
+
+Anagrafica
+
+	Censimento di prodotti 
+		Tipo,Qualità
+	TProdottrasporatori con i loro mezzi
+		Nome e targhe associate
+	Fornitori 
+		Nome*,Cognome*,CF,Partita iva,Indirizzo,Citta,Provincia,CAP
+	Clienti (Cantine)
+		Ragione sociale,città, indirizzo,PI,Telefono,LuogoConsegna(se diverso da indirizzo)
+
+
+
+Sezione acquisti
+	Passi
+		Data (libera)
+		Prodotto,kg,prezzo,Totale autocalcolato
+		Fornitore* (obbligatorio in inserimento,modificabile)
+		Trasporatore*
+		Acconto 
+		Note
+		
+Implemtare form per la registrazione di un acquisto da un fornitore
+
+Sezione riepilogo acquisti
+	Uguale a foglio excel con possibilità di filtrare per nome e cognome,prodotto,data inizio, data fine;
+	
+Sezione pagamenti
+	Scelta fornitore
+	mostra gli acquisti relativi al fornitore con il totale 
+	inserisci pagamento
+	
+Sezione vendite
+		Numero documento
+		Data (libera)
+		Prodotto,kg,prezzo,Totale autocalcolato
+		Fornitore* (obbligatorio in inserimento,modificabile)
+		Trasporatore*
+		Costo trasporto 
+		MOSTRARE IL TOTALE DEL PRODOTTO ACQUISTATO - IL PRODOTTO VENDUTO
+Sezione riepilogo VENDITE
+	Uguale a foglio excel con possibilità di filtrare per nome cliente,prodotto,data inizio, data fine;
+	Dopo selezione cliente e date, mostrare media prezzo (euro venduti / quintali venduti)
+	
+	
+GIT TOKEN
+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
