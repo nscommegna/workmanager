@@ -17,7 +17,7 @@
 				  placeholder="Ragione Sociale" value ="${cliente.ragioneSociale }" required>
 				</div>
 				<div class="mb-3">
-				  <label for="citta" class="form-label">Città</label>
+				  <label for="citta" class="form-label">Citt&agrave;</label>
 				  <input type="text" class="form-control" id="citta" name="citta" value ="${cliente.citta }" placeholder="Città">
 				</div>
 				<div class="mb-3">

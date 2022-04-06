@@ -24,7 +24,7 @@
 			 </div>
 			 <div class="row mt-2">
 			 <div class="col-md-3">
-			 	<a class="btn btn-primary">Nuova qualit&agrave;</a>
+			 	<a class="btn btn-primary" href="/qualitaProdotto/vaiAggiungiQualita?idProdotto=${prodotto.id }">Nuova qualit&agrave;</a>
 			 </div>
 			 	<div class="mb-3">
 					  <table class="table">
