@@ -1,19 +1,42 @@
 version: '3.1'
 services:
-  API:
+  app:
     image: 'workmanager-api-docker.war'
     ports:
       - "8080:8080"
     depends_on:
-      PostgreSQL:
+      database:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/workmanager?
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/workmanager?
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
-  PostgreSQL:
+    
+    restart: unless-stopped
+  pgbackups:
+    container_name: Backup
+    image: prodrigestivill/postgres-backup-local
+    restart: unless-stopped
+    volumes:
+      - ./backup:/backups
+    links:
+      - database
+    depends_on:
+            - database
+    environment:
+        - POSTGRES_HOST=database
+        - POSTGRES_DB=workmanager
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        #- POSTGRES_PASSWORD_FILE=/run/secrets/db_password <-- alternative for POSTGRES_PASSWORD (to use with docker secrets)
+        - POSTGRES_EXTRA_OPTS=-Z6 --schema=public --blobs --format=p --inserts
+        - SCHEDULE=@daily
+        - BACKUP_KEEP_DAYS=7
+        - BACKUP_KEEP_WEEKS=4
+        - BACKUP_KEEP_MONTHS=6
+        - HEALTHCHECK_PORT=81
+  database:
     image: postgres
     ports:
       - "5432:5432"
@@ -28,3 +51,5 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+  
