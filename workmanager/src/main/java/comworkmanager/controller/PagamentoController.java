@@ -76,6 +76,19 @@ public class PagamentoController {
 		
 	}
 	
+	@PostMapping("/modificaPagamento")
+	public ModelAndView modificaPagamento(ModelMap model,
+			@RequestParam (required = true) String idPagamento,
+			@RequestParam (required = true) String importo) {
+		model.addAttribute(TITLE_PAGE, "Pagamenti fornitore");
+		Pagamento p = pagamentoService.findPagamentoById(Long.valueOf(idPagamento));
+		p.setImporto(Double.valueOf(importo));
+		pagamentoService.addPagamento(p);
+		Messaggio msg =  new Messaggio("Pagamento effettuato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;
+		return new ModelAndView("redirect:/pagamento/all");
+		
+	}
 	
 	
 	@RequestMapping(value = "/removeMessage", method = RequestMethod.POST, produces = "application/json")

@@ -160,6 +160,7 @@ public class FornitoreController {
 		
 	}
 	
+	
 	@RequestMapping(value = "/removeMessage", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody String postEmployeeData(ModelMap model) {
 		msgCorrente = null;

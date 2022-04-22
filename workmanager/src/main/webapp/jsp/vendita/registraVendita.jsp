@@ -20,7 +20,7 @@
 				</div>
 				<div class="mb-3 col-md-3">
 				  <label for="dataVendita" class="form-label">Data vendita</label>
-				  <input type="date" class="form-control" id="dataVendita" name="dataVendita" placeholder="dd/MM/yyyy">
+				  <input type="date" class="form-control" id="dataVendita" name="dataVendita" placeholder="dd/MM/yyyy" required>
 				</div>
 				<div class="col-md-6">
 					<label for="cliente" class="form-label">Cliente</label><br>
@@ -59,13 +59,17 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-md-3">
-					<label for="costoTrasporto" class="form-label">Costo trasporto (&euro;)</label><br>
+				<div class="col-md-2">
+					<label for="costoTrasporto" class="form-label">Costo trasporto al kg (&euro;)</label><br>
 					<input  type="number" step=".01" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" required>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2">
+					<label for="totale" class="form-label">Totale trasporto</label><br>
+					<input type="number"  step=".01" min="0" class="form-control" id="totaleTrasporto" name="totaleTrasporto" placeholder="Totale trasporto">
+				</div>
+				<div class="col-md-2">
 					<label for="totale" class="form-label">Totale</label><br>
-					<input type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" placeholder="Tot da pagare">
+					<input type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" placeholder="Tot da incassare">
 				</div>
 				<div class="col-12">
 				<br>
@@ -81,6 +85,7 @@ $(document).ready(function() {
 
 	$("#totaleParziale").attr("readonly", true);
 	$("#totale").attr("readonly", true);
+	$("#totaleTrasporto").attr("readonly", true);
 	
 	$('.select-cliente').selectpicker();
 	$('.select-prodotto').selectpicker();
@@ -90,6 +95,7 @@ $(document).ready(function() {
 //gestione totaleg
 $( "#kili" ).change(function() {
 	calcolaTotaleParziale();
+	calcolaTotaleTrasporto();
 	calcolaTotale();
 	});
 $( "#prezzo" ).change(function() {
@@ -97,6 +103,7 @@ $( "#prezzo" ).change(function() {
 	calcolaTotale();
 	});
 $( "#costoTrasporto" ).change(function() {
+	calcolaTotaleTrasporto();
 	calcolaTotale();
 	});
 
@@ -125,16 +132,36 @@ function calcolaTotaleParziale(){
 }
 
 function calcolaTotale(){
-	var costoTrasporto = Number($( "#costoTrasporto" ).val());
+	var totaleTrasporto = Number($( "#totaleTrasporto" ).val());
 	var totaleParziale = Number($( "#totaleParziale" ).val());
-	if(costoTrasporto != 0){
-		var totale = costoTrasporto + totaleParziale;
+	if(totaleTrasporto != 0){
+		var totale = totaleTrasporto + totaleParziale;
 		$("#totale").attr("readonly", false);
 		$( "#totale" ).val(totale.toFixed(2));
 		$("#totale").attr("readonly", true);
 		return;
 	}
+	else{
+		$( "#totale" ).val('');
+	}
 	
+}
+
+function calcolaTotaleTrasporto(){
+	var costoTrasporto = Number($( "#costoTrasporto" ).val());
+	var kili = Number($( "#kili" ).val());
+	if(kili != 0 && costoTrasporto != 0){
+		var totaleNoIva = costoTrasporto * kili;
+		var iva = totaleNoIva * 0.22;
+		var totale = totaleNoIva + iva;
+		$("#totaleTrasporto").attr("readonly", false);
+		$( "#totaleTrasporto" ).val(totale.toFixed(2));
+		$("#totaleTrasporto").attr("readonly", true);
+		return;
+	}
+	else{
+		$( "#totaleTrasporto" ).val('');
+	}
 }
 </script>
 <jsp:include page="../general/footer.jsp"></jsp:include>

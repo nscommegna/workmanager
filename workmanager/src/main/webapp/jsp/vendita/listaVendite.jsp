@@ -14,9 +14,24 @@
   </c:if>
    <div class="row">
    		<h3>Lista vendite</h3>
-   		<div class="col-md-2">
-   			<button id="btnRicercaAvanzata" class="btn btn-primary pull-right"><i class="fa-solid fa-magnifying-glass"></i>Ricerca avanzata</button>
+   		<div class="row">
+	   		<div class="col-md-2">
+	   			<button id="btnRicercaAvanzata" class="btn btn-primary pull-right"><i class="fa-solid fa-magnifying-glass"></i>Ricerca avanzata</button>
+	   		</div>
    		</div>
+   		<c:if test="${not empty importoTotaleVenduto }">
+	   		<div class="row">
+		   			<div class="col-md-4">
+		   				<h5>Totale importo venduto : &euro; ${importoTotaleVenduto}</h5>
+		   			</div>
+		   			<div class="col-md-4">
+		   				<h5>Totale quantita venduta : ${quantitaTotaleVenduta}</h5>
+		   			</div>
+		   			<div class="col-md-4">
+		   				<h5>Media prezzo : &euro; ${mediaPrezzo}</h5>
+		   			</div>
+	   		</div>
+   		</c:if>
    		<div id="rowRicercaAvanzata" class="row mt-2">
 	   		<form class="row g-3" action="/vendita/ricercaAvanzata" method="POST">
 	   			<div class="mb-3 col-md-2">
@@ -115,6 +130,25 @@ $(document).ready(function() {
 	                action: function ( e, dt, node, config ) {
 	                	window.location.href = "/vendita/vaiAggiungiVendita";
 	                }
+	            },
+	            {
+	        		extend : 'print',
+	        		text: 'Stampa',
+	        		title : 'Elenco Vendite',
+		            exportOptions: {
+	        		    columns: function (idx, data, node) {
+	    		            if (idx == 11)
+	    		                return false;
+	    		            return true;
+	    		        }
+	    			},
+	        		customize: function ( doc ) {
+	        		     $(doc.document.body).find('h1').css('font-size', '18pt');
+	        		     $(doc.document.body).find('h1').css('text-align', 'center'); 
+	        		     $(doc.document.body).css( 'font-size', '10pt' )
+	        		 
+	        		
+	        		}
 	            }
 	        ]
 	    });

@@ -13,13 +13,13 @@
 		   	<form class="row g-3" action="/acquisto/salvaAcquisto" method="POST">
 				<div class="mb-3 col-md-6">
 				  <label for="dataAcquisto" class="form-label">Data acquisto</label>
-				  <input type="date" class="form-control" id="dataAcquisto" name="dataAcquisto" placeholder="dd/MM/yyyy">
+				  <input type="date" class="form-control" id="dataAcquisto" name="dataAcquisto" placeholder="dd/MM/yyyy" required>
 				</div>
 				<div class="col-md-6">
 					<label for="fornitore" class="form-label">Fornitore</label><br>
 					<select class="select-cliente col-md-12" data-live-search="true" name="fornitore" required>
 						<c:forEach var="fornitore" items="${fornitori }">
-							<option value="${fornitore.id}" data-tokens="${fornitore.cognome} ${fornitore.nome }">${fornitore.cognome} ${fornitore.nome } - ${fornitore.codiceFiscale}</option>
+							<option value="${fornitore.id}" data-tokens="${fornitore.cognome} ${fornitore.nome }">${fornitore.cognome} ${fornitore.nome } - ${fornitore.indirizzo}</option>
 						</c:forEach>
 					</select>
 				</div>

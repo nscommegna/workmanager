@@ -14,6 +14,19 @@
   </c:if>
    <div class="row">
    		<h3>Lista acquisti</h3>
+   		<c:if test="${not empty importoTotaleAcquistato }">
+	   		<div class="row">
+		   			<div class="col-md-4">
+		   				<h5>Totale importo acquistato : &euro; ${importoTotaleAcquistato}</h5>
+		   			</div>
+		   			<div class="col-md-4">
+		   				<h5>Totale quantita acquistata : ${quantitaTotaleAcquistata}</h5>
+		   			</div>
+		   			<div class="col-md-4">
+		   				<h5>Media prezzo : &euro; ${mediaPrezzo}</h5>
+		   			</div>
+	   		</div>
+   		</c:if>
    		<div class="col-md-2">
    			<button id="btnRicercaAvanzata" class="btn btn-primary pull-right"><i class="fa-solid fa-magnifying-glass"></i>Ricerca avanzata</button>
    		</div>
@@ -111,6 +124,17 @@ $(document).ready(function() {
 	                action: function ( e, dt, node, config ) {
 	                	window.location.href = "/acquisto/vaiAggiungiAcquisto";
 	                }
+	            },
+	            {
+	        		extend : 'print',
+	        		text: 'Stampa',
+	        		title : 'Elenco Acquisti',
+	        		customize: function ( doc ) {
+	        		     $(doc.document.body).find('h1').css('font-size', '18pt');
+	        		     $(doc.document.body).find('h1').css('text-align', 'center'); 
+	        		 
+	        		
+	        		}
 	            }
 	        ]
 	    });

@@ -81,6 +81,20 @@ public class AcquistoController {
 		List<QualitaProdotto> qualitaProdotti = qualitaProdottoService.findAllQualitaProdotto();
 		model.addAttribute("qualitaProdotti", qualitaProdotti);
 		
+		if(acquisti.size() != 0) {
+			Double importoTotaleAcquistato = Util.calcolaTotaleAcquisti(acquisti);
+			Double quantitaTotaleAcquistata = Util.calcolaTotaleQuantitaProdottoAcquistata(acquisti);
+			Double mediaPrezzo = Util.roundTo2Digit(importoTotaleAcquistato/quantitaTotaleAcquistata);
+			
+			model.addAttribute("importoTotaleAcquistato",importoTotaleAcquistato);
+			model.addAttribute("quantitaTotaleAcquistata", quantitaTotaleAcquistata);
+			model.addAttribute("mediaPrezzo", mediaPrezzo);
+		}else {
+			model.remove("importoTotaleAcquistato");
+			model.remove("quantitaTotaleAcquistata");
+			model.remove("mediaPrezzo");
+		}
+		
 		model.addAttribute(TITLE_PAGE, "Elenco acquisti");
 		return LISTA_ACQUISTI;
 		
@@ -163,7 +177,7 @@ public class AcquistoController {
 		//converto la stringa in data
 		Date date = null;
 		try {
-			if(!data.isEmpty()) {
+			if(data!= null && !data.isEmpty()) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				date = sdf.parse(data);
 			}

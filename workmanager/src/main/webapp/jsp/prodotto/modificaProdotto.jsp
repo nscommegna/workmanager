@@ -39,7 +39,7 @@
 					  		<c:forEach items="${prodotto.qualita }" var="qualita">
 						  		<tr>
 						  			<td>${qualita.qualita}</td>
-						  			<td><a class="btn btn-sm btn-primary" href="/prodotto/vaiModificaProdotto?idProdotto=${qualita.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+						  			<td><a class="btn btn-sm btn-primary" href="/qualitaProdotto/vaiModificaQualitaProdotto?idQualita=${qualita.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
 						  		</tr>
 					  		</c:forEach>
 					  	</tbody>

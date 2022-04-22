@@ -40,7 +40,7 @@
 				</div>
 				<div class="col-md-2">
 					<label for="kili" class="form-label">Quantit&agrave;(kg)</label><br>
-					<input value="${vendita.quantita }" type="number" max="${totaleQuantitaProdottoDaVendere}" step=".1" min="0" class="form-control" id="kili" name="kili" placeholder="Kg prodotto" required>
+					<input value="${vendita.quantita }" type="number" max="${totaleQuantitaProdottoDaVendere + vendita.quantita}" step=".1" min="0" class="form-control" id="kili" name="kili" placeholder="Kg prodotto" required>
 				</div>
 				<div class="col-md-2">
 					<label for="prezzo" class="form-label">Prezzo di vendita (&euro;)</label><br>
@@ -59,13 +59,17 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-md-3">
-					<label for="costoTrasporto" class="form-label">Costo trasporto (&euro;)</label><br>
-					<input value="${vendita.costoTrasporto }" type="number" step=".01" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" required>
+				<div class="col-md-2">
+					<label for="costoTrasporto" class="form-label">Costo trasporto al kg (&euro;)</label><br>
+					<input  type="number" step=".01" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" value="${vendita.costoTrasporto }" required>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2">
+					<label for="totale" class="form-label">Totale trasporto + IVA</label><br>
+					<input type="number"  step=".01" min="0" class="form-control" id="totaleTrasporto" name="totaleTrasporto" placeholder="Totale trasporto">
+				</div>
+				<div class="col-md-2">
 					<label for="totale" class="form-label">Totale</label><br>
-					<input value="${vendita.totale }" type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" placeholder="Tot da pagare">
+					<input type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" placeholder="Tot da incassare">
 				</div>
 				<input value="${vendita.id }" id="idVendita" name="idVendita" hidden>
 				<div class="col-12">
@@ -82,7 +86,8 @@ $(document).ready(function() {
 
 	$("#totaleParziale").attr("readonly", true);
 	$("#totale").attr("readonly", true);
-
+	$("#totaleTrasporto").attr("readonly", true);
+	
 	$('.select-cliente').selectpicker();
 	$('.select-prodotto').selectpicker();
 	$('.select-cantina').selectpicker();
@@ -94,6 +99,7 @@ $(document).ready(function() {
 	$('.select-mezzo').selectpicker('val',"${vendita.mezzo.id}");
 
 	calcolaTotaleParziale();
+	calcolaTotaleTrasporto();
 	calcolaTotale();
 	
 	const [date, time] = formatDate(new Date('${vendita.dataVendita}')).split(' ');
@@ -125,6 +131,7 @@ $(document).ready(function() {
 //gestione totaleg
 $( "#kili" ).change(function() {
 	calcolaTotaleParziale();
+	calcolaTotaleTrasporto();
 	calcolaTotale();
 	});
 $( "#prezzo" ).change(function() {
@@ -132,6 +139,7 @@ $( "#prezzo" ).change(function() {
 	calcolaTotale();
 	});
 $( "#costoTrasporto" ).change(function() {
+	calcolaTotaleTrasporto();
 	calcolaTotale();
 	});
 
@@ -160,17 +168,36 @@ function calcolaTotaleParziale(){
 }
 
 function calcolaTotale(){
-	var costoTrasporto = Number($( "#costoTrasporto" ).val());
+	var totaleTrasporto = Number($( "#totaleTrasporto" ).val());
 	var totaleParziale = Number($( "#totaleParziale" ).val());
-	if(costoTrasporto != 0){
-		var totale = costoTrasporto + totaleParziale;
+	if(totaleTrasporto != 0){
+		var totale = totaleTrasporto + totaleParziale;
 		$("#totale").attr("readonly", false);
 		$( "#totale" ).val(totale.toFixed(2));
 		$("#totale").attr("readonly", true);
 		return;
 	}
+	else{
+		$( "#totale" ).val('');
+	}
+	
+}
 
-
+function calcolaTotaleTrasporto(){
+	var costoTrasporto = Number($( "#costoTrasporto" ).val());
+	var kili = Number($( "#kili" ).val());
+	if(kili != 0 && costoTrasporto != 0){
+		var totaleNoIva = costoTrasporto * kili;
+		var iva = totaleNoIva * 0.22;
+		var totale = totaleNoIva + iva;
+		$("#totaleTrasporto").attr("readonly", false);
+		$( "#totaleTrasporto" ).val(totale.toFixed(2));
+		$("#totaleTrasporto").attr("readonly", true);
+		return;
+	}
+	else{
+		$( "#totaleTrasporto" ).val('');
+	}
 	
 }
 </script>

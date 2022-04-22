@@ -14,7 +14,7 @@
   </c:if>
    <div class="row">
    		<h3>Lista acquisti effettuati dal fornitore:  </h3>
-   		<h4>${fornitore.cognome } ${fornitore.nome } - ${fornitore.codiceFiscale }</h4>
+   		<h4>${fornitore.cognome } ${fornitore.nome } - ${fornitore.indirizzo }</h4>
    </div>
      <div class="row mt-2">
    		<h5>Pagati &euro; ${totalePagato } in ${nPagamenti} soluzioni</h5>
@@ -69,13 +69,13 @@
 	      <div class="modal-body">
 	        	<div class="col-md-12">
 						<label for="importo" class="form-label">Importo da pagare (&euro;)</label><br>
-						<input type="number" max="${restanteDaPagare}" step=".01" min="0" class="form-control" id="importo" name="importo" placeholder="Importo in euro" required>
+						<input type="number"  step=".01" min="0" class="form-control" id="importo" name="importo" placeholder="Importo in euro" required>
 				</div>
 				<input type="text"  class="form-control" id="idFornitore" name="idFornitore" value="${fornitore.id }" hidden>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-	        <button type="submit" class="btn btn-primary">Save changes</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+	        <button type="submit" class="btn btn-primary">Effettua pagamento</button>
 	      </div>
        </form>
     </div>
@@ -84,6 +84,8 @@
 
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 <script>
+var fornitore = "${fornitore.cognome } ${fornitore.nome } - ${fornitore.indirizzo }";
+
 $(document).ready(function() {
 	
 	jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
@@ -110,6 +112,25 @@ $(document).ready(function() {
 	                action: function ( e, dt, node, config ) {
 	                	$('#modalPagamento').modal('show');
 	                }
+	            },
+	            {
+	        		extend : 'print',
+	        		text: 'Stampa',
+	        		title : 'Acquisti effettuati da '+ fornitore,
+	        		exportOptions: {
+	        		    columns: function (idx, data, node) {
+	        		            if (idx == -1)
+	        		                return false;
+	        		            return true;
+	        		        }
+	        		},
+	        		customize: function ( doc ) {
+	        		     $(doc.document.body).find('h1').css('font-size', '15pt');
+	        		     $(doc.document.body).find('h1').css('text-align', 'center'); 
+	        		 
+	        		
+	        		},
+	        		footer: true
 	            }
 	        ],
 	        "footerCallback": function ( row, data, start, end, display ) {

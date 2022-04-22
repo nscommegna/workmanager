@@ -74,27 +74,25 @@ public class QualitaProdottoController {
 		
 	}
 	
-	@GetMapping("/vaiQualitaProdotto")
+	@GetMapping("/vaiModificaQualitaProdotto")
 	public String vaiModificaProdotto(ModelMap model,
-			@RequestParam(required = true) String idQualitaProdotto) {
-		QualitaProdotto qp = qualitaProdottoService.findQualitaProdottoById(Long.valueOf(idQualitaProdotto));
+			@RequestParam(required = true) String idQualita) {
+		QualitaProdotto qp = qualitaProdottoService.findQualitaProdottoById(Long.valueOf(idQualita));
 		model.addAttribute(TITLE_PAGE, "Modifica qualità prodotto");
 		model.addAttribute("qualitaProdotto", qp);
 		return MODIFICA_QUALITA;
 		
 	}
 	
-	@PostMapping("/modificaNomeProdotto")
+	@PostMapping("/modificaQualitaProdotto")
 	public ModelAndView modificaNomeProdotto(ModelMap model,
-			@RequestParam (required = true) String idProdotto,
-			@RequestParam (required = true) String tipo) {
+			@RequestParam (required = true) String idQualita,
+			@RequestParam (required = true) String nome) {
 		
-		Prodotto p = new Prodotto(tipo);
-		p.setId(Long.valueOf(idProdotto));
-		prodottoService.updateProdotto(p);
-		Messaggio msg =  new Messaggio("Prodotto modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
-		msgCorrente = msg;
-		return new ModelAndView("redirect:/prodotto/vaiAggiungiQualita?");
+		QualitaProdotto qp = qualitaProdottoService.findQualitaProdottoById(Long.valueOf(idQualita));
+		qp.setQualita(nome);
+		qualitaProdottoService.addQualitaProdotto(qp);
+		return new ModelAndView("redirect:/prodotto/vaiModificaProdotto?idProdotto="+qp.getProdotto().getId());
 		
 	}
 	

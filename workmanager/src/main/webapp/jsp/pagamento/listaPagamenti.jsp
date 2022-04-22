@@ -36,6 +36,7 @@
 	                <th>Data pagamento</th>
 	                <th>Importo</th>
 	                <th>Fornitore</th>
+	                <th>Funzioni</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -43,7 +44,8 @@
 	            	<tr>
 		            	<td><fmt:formatDate value="${pagamento.dataPagamento}" pattern="dd/MM/yyyy" /></td>
 			            <td>&euro; ${pagamento.importo}</td>
-			            <td>${pagamento.fornitore.cognome} ${pagamento.fornitore.nome} - ${pagamento.fornitore.codiceFiscale}</td>
+			            <td>${pagamento.fornitore.cognome} ${pagamento.fornitore.nome} - ${pagamento.fornitore.indirizzo}</td>
+		           		<td><button data-importo="${pagamento.importo}" data-id="${pagamento.id} "id="btnModificaPagamento"  class="btn btn-sm btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
@@ -51,13 +53,54 @@
 	    </div>
    </div>
 </div>
-
+<!-- Modal pagamento-->
+<div class="modal fade" id="modalPagamento" tabindex="-1" aria-labelledby="modalPagamentoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+       <form class="row g-3" action="/pagamento/modificaPagamento" method="POST">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="modalPagamentoLabel">Modifica pagamento</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        	<div class="col-md-12">
+						<label for="importo" class="form-label">Importo attuale (&euro;)</label><br>
+						<input type="number"  step=".01" min="0" class="form-control" id="importo" name="importo" placeholder="Importo in euro" required>
+				</div>
+				<input type="text"  class="form-control" id="idPagamentoModal" name="idPagamento" hidden>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+	        <button type="submit" class="btn btn-primary">Modifica pagamento</button>
+	      </div>
+       </form>
+    </div>
+  </div>
+</div>
 
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 <script>
 $(document).ready(function() {
 	 $('#example').DataTable({
 	        dom: 'Bfrtip',
+	        buttons: [
+	        	{
+	        		extend : 'print',
+	        		text: 'Stampa',
+	        		title : 'Elenco pagamenti',
+	        		exportOptions: {
+	        		    columns: function (idx, data, node) {
+	        		            if (idx == 3)
+	        		                return false;
+	        		            return true;
+	        		        }
+	        		},
+	        		customize: function ( doc ) {
+	        		     $(doc.document.body).find('h1').css('font-size', '18pt');
+	        		     $(doc.document.body).find('h1').css('text-align', 'center'); 
+	        		 }
+	        	}
+	        ]
 	        /*buttons: [
 	            {
 	                text: 'Aggiungi nuovo',
@@ -78,6 +121,12 @@ $(document).ready(function() {
 	                            $('#cardMsg').hide(); 
 	                    }
 	                });
+	            });
+	 $('#btnModificaPagamento').click(function ()
+	            {	
+		 			$('#importo').val(this.dataset.importo.trim());
+		 			$('#idPagamentoModal').val(this.dataset.id.trim());
+		 			$('#modalPagamento').modal('show');
 	            });
 } );
 </script>

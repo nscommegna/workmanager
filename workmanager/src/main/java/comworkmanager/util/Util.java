@@ -46,6 +46,15 @@ public class Util {
 		
 	}
 	
+	public static Double calcolaTotaleVendite(List<Vendita> vendite) {
+		Double tot = 0.00;
+		for(Vendita p : vendite) {
+			tot += p.getTotaleParziale();
+		}
+	    return roundTo2Digit(tot);
+		
+	}
+	
 	public static Double calcolaTotaleQuantitaProdottoVenduta(List<Vendita> vendita) {
 		Double tot = 0.00;
 		for(Vendita p : vendita) {
@@ -54,7 +63,7 @@ public class Util {
 	    return roundTo2Digit(tot);
 	}
 	
-	private static Double roundTo2Digit(Double value) {
+	public static Double roundTo2Digit(Double value) {
 		BigDecimal bd = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
 	}
