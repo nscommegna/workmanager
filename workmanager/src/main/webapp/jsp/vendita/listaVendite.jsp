@@ -148,7 +148,8 @@ $(document).ready(function() {
 	        		     $(doc.document.body).css( 'font-size', '10pt' )
 	        		 
 	        		
-	        		}
+	        		},
+	        		orientation: 'landscape'
 	            }
 	        ]
 	    });
