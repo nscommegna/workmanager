@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import comworkmanager.model.Acquisto;
 import comworkmanager.model.Vendita;
 import comworkmanager.modelSpecifications.VenditaSpecs;
 import comworkmanager.repo.VenditaRepo;
@@ -35,7 +36,11 @@ public class VenditaService {
 	public Vendita findVenditaById(Long idVendita) {
 		return venditaRepo.findById(idVendita).orElse(null);
 	}
-
+	
+	public void storicizza(Vendita vendita) {
+		venditaRepo.delete(vendita);
+	}
+	
 	public Double getSumImportoAcquistato() {
 		List<Double> importi = new ArrayList<Double>();
 		Double tot = 0.00;

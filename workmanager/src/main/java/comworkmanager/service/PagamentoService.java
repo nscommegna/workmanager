@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import comworkmanager.model.Acquisto;
 import comworkmanager.model.Pagamento;
+import comworkmanager.model.Vendita;
 import comworkmanager.repo.PagamentoRepo;
 
 @Service
@@ -32,7 +32,11 @@ public class PagamentoService {
 	public Pagamento findPagamentoById(Long idPagamento) {
 		return pagamentoRepo.findById(idPagamento).orElse(null);
 	}
-
+	
+	public void storicizza(Pagamento pagamento) {
+		pagamentoRepo.delete(pagamento);
+	}
+	
 	public Double getSumImportoPagato() {
 		List<Double> importi = new ArrayList<Double>();
 		Double tot = 0.00;

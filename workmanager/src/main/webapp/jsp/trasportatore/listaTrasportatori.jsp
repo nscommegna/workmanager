@@ -36,7 +36,7 @@
 			           		</c:forEach>
 			            </td>
 			           
-			            <td><a class="btn btn-sm btn-primary" href="/prodotto/vaiModificaTrasportatore?idTrasportatore=${trasportatore.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+			            <td><a class="btn btn-sm btn-primary" href="/trasportatore/vaiModificaTrasportatore?idTrasportatore=${trasportatore.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>

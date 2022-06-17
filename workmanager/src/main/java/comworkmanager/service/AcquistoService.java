@@ -34,7 +34,11 @@ public class AcquistoService {
 	public Acquisto findAcquistoById(Long idAcquisto) {
 		return acquistoRepo.findById(idAcquisto).orElse(null);
 	}
-
+	
+	public void storicizza(Acquisto acquisto) {
+		 acquistoRepo.delete(acquisto);
+	}
+	
 	public Double getSumImportoAcquistato() {
 		List<Double> importi = new ArrayList<Double>();
 		Double tot = 0.00;

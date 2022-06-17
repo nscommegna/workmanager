@@ -166,7 +166,7 @@ public class AcquistoController {
 	
 	@PostMapping("/salvaAcquisto")
 	public ModelAndView salvaAcquisto(ModelMap model,
-			@RequestParam (required = false) String data,
+			@RequestParam (required = false) String dataAcquisto,
 			@RequestParam (required = true) String fornitore,
 			@RequestParam (required = true) String prodottoQualita,
 			@RequestParam (required = true) Double kili,
@@ -177,9 +177,9 @@ public class AcquistoController {
 		//converto la stringa in data
 		Date date = null;
 		try {
-			if(data!= null && !data.isEmpty()) {
+			if(dataAcquisto!= null && !dataAcquisto.isEmpty()) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				date = sdf.parse(data);
+				date = sdf.parse(dataAcquisto);
 			}
 		} catch (ParseException e) {
 			Messaggio msg =  new Messaggio("Qualcosa è andato storto..", EnumTipoMessaggio.WARNING.getTipo());
@@ -274,4 +274,6 @@ public class AcquistoController {
 		msgCorrente = null;
 		return "200";
 	}
+	
+	//TODO - cambiare  
 }

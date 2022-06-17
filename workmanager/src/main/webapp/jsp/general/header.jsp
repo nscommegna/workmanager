@@ -58,6 +58,13 @@
         <li class="nav-item">
           <a class="nav-link" href="/pagamento/all">Pagamenti</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/storico/all">Annate concluse</a>
+        </li>
+        
+        <li class="nav-item pull-right">
+          <button class="btn btn-danger" id="btnChiudiAnnata" >Chiudi annata</button>
+        </li>
       </ul>
     </div>
   </div>

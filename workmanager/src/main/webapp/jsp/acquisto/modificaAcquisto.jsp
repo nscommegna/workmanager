@@ -29,15 +29,15 @@
 				</div>
 				<div class="col-md-2">
 					<label for="kili" class="form-label">Quantit&agrave;(kg)</label><br>
-					<input type="number" step=".1" min="0" class="form-control" id="kili" name="kili" placeholder="Kg prodotto" value="${acquisto.quantita}" readonly required>
+					<input type="number"  min="0" class="form-control" id="kili" name="kili" placeholder="Kg prodotto" value="${acquisto.quantita}" readonly required>
 				</div>
 				<div class="col-md-2">
 					<label for="prezzo" class="form-label">Prezzo (&euro;)</label><br>
-					<input  type="number" step=".01" min="0" class="form-control" id="prezzo" name="prezzo" value="${acquisto.prezzo}" placeholder="Prezzo al kg" readonly required>
+					<input  type="number"  min="0" class="form-control" id="prezzo" name="prezzo" value="${acquisto.prezzo}" placeholder="Prezzo al kg" readonly required>
 				</div>
 				<div class="col-md-2">
 					<label for="totale" class="form-label">Totale</label><br>
-					<input type="number"  step=".01" min="0" class="form-control" id="totale" name="totale" value="${acquisto.totale}" placeholder="Tot da pagare">
+					<input type="number"   min="0" class="form-control" id="totale" name="totale" value="${acquisto.totale}" placeholder="Tot da pagare">
 				</div>
 				<div class="col-md-6">
 					<label for="cantinaDestinazione" class="form-label">Cantina di destinazione</label><br>

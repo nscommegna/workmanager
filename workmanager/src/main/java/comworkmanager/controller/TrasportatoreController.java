@@ -14,7 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import comworkmanager.enums.EnumTipoMessaggio;
 import comworkmanager.model.Mezzo;
+import comworkmanager.model.Prodotto;
+import comworkmanager.model.QualitaProdotto;
 import comworkmanager.model.Trasportatore;
+import comworkmanager.service.MezzoService;
 import comworkmanager.service.TrasportatoreService;
 import comworkmanager.util.Messaggio;
 
@@ -25,8 +28,14 @@ public class TrasportatoreController {
 	private final String LISTA_TRASPORTATORI = "/trasportatore/listaTrasportatori";
 	private final String NUOVO_TRASPORTATORE = "/trasportatore/nuovoTrasportatore";
 	private final String MODIFICA_TRASPORTATORE = "/trasportatore/modificaTrasportatore";
+	private final String NUOVO_MEZZO = "/trasportatore/mezzo/nuovoMezzo";
+	private final String MODIFICA_MEZZO = "/trasportatore/mezzo/modificaMezzo";
+		
 	//service
 	private final TrasportatoreService trasportatoreService;
+	
+	//service
+	private final MezzoService mezzoService;
 	//constant
 	private final String TITLE_PAGE = "titlePage";
 	
@@ -35,8 +44,9 @@ public class TrasportatoreController {
 	
 	private static Messaggio msgCorrente;
 	
-	public TrasportatoreController(TrasportatoreService trasportatoreService) {
+	public TrasportatoreController(TrasportatoreService trasportatoreService,MezzoService mezzoService) {
 		this.trasportatoreService = trasportatoreService;
+		this.mezzoService = mezzoService;
 	
 	}
 	
@@ -84,9 +94,9 @@ public class TrasportatoreController {
 	@GetMapping("/vaiModificaTrasportatore")
 	public String vaiModificaTrasportatore(ModelMap model,
 			@RequestParam(required = true) String idTrasportatore) {
-		Trasportatore p = trasportatoreService.findTrasportatoreById(Long.valueOf(idTrasportatore));
+		Trasportatore t = trasportatoreService.findTrasportatoreById(Long.valueOf(idTrasportatore));
 		model.addAttribute(TITLE_PAGE, "Modifica Trasportatore");
-		model.addAttribute("trasportatore", p);
+		model.addAttribute("trasportatore", t);
 		return MODIFICA_TRASPORTATORE;
 		
 	}
@@ -94,14 +104,66 @@ public class TrasportatoreController {
 	@PostMapping("/modificaNomeTrasportatore")
 	public ModelAndView modificaNomeTrasportatore(ModelMap model,
 			@RequestParam (required = true) String idTrasportatore,
-			@RequestParam (required = true) String tipo) {
+			@RequestParam (required = true) String nome) {
 		
-		Trasportatore p = new Trasportatore(tipo);
+		Trasportatore p = new Trasportatore(nome);
 		p.setId(Long.valueOf(idTrasportatore));
 		trasportatoreService.updateTrasportatore(p);
 		Messaggio msg =  new Messaggio("Trasportatore modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
 		msgCorrente = msg;
 		return new ModelAndView("redirect:/trasportatore/all");
+		
+	}
+	
+	@GetMapping("/vaiAggiungiMezzo")
+	public String vaiAggiungiQualita(ModelMap model,
+			@RequestParam String idTrasportatore) {
+		if(msgCorrente != null) {
+			model.addAttribute(MESSAGGIO_KEY,msgCorrente);
+		}
+		Trasportatore t = trasportatoreService.findTrasportatoreById(Long.valueOf(idTrasportatore));
+		model.addAttribute(TITLE_PAGE, "Nuovo mezzo");
+		model.addAttribute("trasportatore", t);
+		return NUOVO_MEZZO;
+		
+	}
+	
+	@PostMapping("/salvaMezzo")
+	public ModelAndView salvaProdotto(ModelMap model,
+			@RequestParam (required = true) String idTrasportatore,
+			@RequestParam (required = true) String  targa
+			) {
+		Trasportatore t = new Trasportatore();
+		t.setId(Long.valueOf(idTrasportatore));
+		Mezzo m = new Mezzo(targa);
+		m.setTrasportatore(t);
+		mezzoService.addMezzo(m);
+
+		Messaggio msg =  new Messaggio("Mezzo aggiunto con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;
+		return new ModelAndView("redirect:/trasportatore/vaiAggiungiMezzo?idTrasportatore="+idTrasportatore);
+		
+	}
+	
+	@GetMapping("/vaiModificaMezzo")
+	public String vaiModificaProdotto(ModelMap model,
+			@RequestParam(required = true) String idMezzo) {
+		Mezzo mezzo = mezzoService.findMezzoById(Long.valueOf(idMezzo));
+		model.addAttribute(TITLE_PAGE, "Modifica mezzo trasportatore");
+		model.addAttribute("mezzo", mezzo);
+		return MODIFICA_MEZZO;
+		
+	}
+	
+	@PostMapping("/modificaMezzo")
+	public ModelAndView modificaNomeProdotto(ModelMap model,
+			@RequestParam (required = true) String idMezzo,
+			@RequestParam (required = true) String targa) {
+		
+		Mezzo m = mezzoService.findMezzoById(Long.valueOf(idMezzo));
+		m.setTarga(targa);
+		mezzoService.addMezzo(m);
+		return new ModelAndView("redirect:/trasportatore/vaiModificaTrasportatore?idTrasportatore="+m.getTrasportatore().getId());
 		
 	}
 	

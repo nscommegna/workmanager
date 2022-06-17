@@ -44,7 +44,7 @@
 				</div>
 				<div class="col-md-2">
 					<label for="prezzo" class="form-label">Prezzo di vendita (&euro;)</label><br>
-					<input  type="number" step=".01" min="0" class="form-control" id="prezzo" name="prezzo" placeholder="Prezzo al kg" required>
+					<input  type="number" step=".0001" min="0" class="form-control" id="prezzo" name="prezzo" placeholder="Prezzo al kg" required>
 				</div>
 				<div class="col-md-2">
 					<label for="totaleParziale" class="form-label">Totale parziale</label><br>

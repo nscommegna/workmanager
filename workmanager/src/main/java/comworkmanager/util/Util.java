@@ -67,4 +67,9 @@ public class Util {
 		BigDecimal bd = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
 	}
+	
+	public static Double roundTo4Digit(Double value) {
+		BigDecimal bd = new BigDecimal(value).setScale(4, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
 }

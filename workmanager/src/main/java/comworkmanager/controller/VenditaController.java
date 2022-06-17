@@ -215,7 +215,7 @@ public class VenditaController {
 		if (!mezzo.equals("-1")) {
 			objMezzo = mezzoService.findMezzoById(Long.valueOf(mezzo));
 		}
-		// calcolo totale e approssimo a 2 cifre dopo la virgola
+		// calcolo totale e approssimo a 4 cifre dopo la virgola
 		Double totParziale = prezzo * kili;
 		BigDecimal bd = new BigDecimal(totParziale).setScale(2, RoundingMode.HALF_UP);
 		double totParzialeFormatted = bd.doubleValue();

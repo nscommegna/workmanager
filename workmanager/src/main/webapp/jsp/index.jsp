@@ -82,8 +82,57 @@
 			  </div>
 			</div>
 	    </div>
+	    
+	     <div class="col-md-2">
+		   	<div class="card card-home" style="width: 100%;">
+			  <img style="height: 90%;" src="/assets/icons/storico.jpg" class="card-img-top img-home">
+			  <div class="card-body">
+			    <h5 class="card-title text-center">Storico annate</h5>
+			    <a href="/storico/all" class="stretched-link"></a>
+			  </div>
+			</div>
+	    </div>
    </div>
+   
+   <!-- Modal -->
+<div class="modal fade" id="chiudiAnnataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form action="/storico/chiudiAnnata" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Chiusura annata</h5>
+      </div>
+      <div class="modal-body">
+        <p>Procedendo con la chiusura dell'annata, sposterai i dati relativi a 
+        <b>acquisti</b>,<b>vendite</b> e <b>pagamenti</b> nella sezione <i>Storico</i>.
+        <br>
+         Confermando, questi dati non saranno più modificabili ma solo consultabili dall'apposita sezione.
+         Procedere <b>solo se si è sicuri</b> di non dover registrare nessun'altro movimento per l'annata corrente.
+        </p>
+        <div class="mb-3">
+	        <label for="dataChiusura" class="form-label">Data chiusura</label>
+	        <input type="date" class="form-control" id="dataChiusura" name="dataChiusura" placeholder="dd/MM/yyyy" required>
+        </div>
+        <div class="mb-3">
+       		<input type="text" class="form-control" id="note" name="note" placeholder="Note aggiuntive" required>
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Chiudi annata</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+   
    
 </div>
 <jsp:include page="general/subfooter.jsp"></jsp:include>
+
+<script>
+$( "#btnChiudiAnnata" ).click(function() {
+		$('#chiudiAnnataModal').modal('toggle')
+	});
+</script>
+
 <jsp:include page="general/footer.jsp"></jsp:include>
