@@ -103,13 +103,35 @@
 		            	<td>&euro; ${vendita.totaleParziale}</td>
 		            	<td>&euro; ${vendita.costoTrasporto}</td>
 		            	<td>&euro; ${vendita.totale}</td>
-			            <td><a class="btn btn-sm btn-primary" href="/vendita/vaiModificaVendita?idVendita=${vendita.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+			            <td>
+				            <a class="btn btn-sm btn-primary" href="/vendita/vaiModificaVendita?idVendita=${vendita.id}"><i class="fa-solid fa-pen-to-square"></i></a>
+				            <a class="btn btn-sm btn-danger" id="btnDelte" data-id="${vendita.id}"><i class="fa-solid fa-trash-can"></i></a>
+			            </td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
 	    </table>
 	    </div>
    </div>
+   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form action="/vendita/eliminaVendita" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Elimina vendita</h5>
+      </div>
+      <div class="modal-body">
+        <p>Sei sicuro di voler eliminare questa vendita? Attenzione, l'azione è irreversibile.</p>
+        <input type="text" id="idVenditaElimina" name="idVendita" hidden >
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Elimina</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+   
 </div>
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 
@@ -117,6 +139,13 @@
 
 var ricercaAvanzataHidden = true;
 $(document).ready(function() {
+	
+	$( "#btnDelte" ).click(function() {
+		$( "#idVenditaElimina" ).val($(this).attr("data-id"));
+		$('#deleteModal').modal('toggle')
+	});
+	
+	
 	$("#rowRicercaAvanzata").attr("hidden", true);
 	
 	$('.select-fornitore').selectpicker();

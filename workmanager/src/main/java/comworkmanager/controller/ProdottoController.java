@@ -71,6 +71,11 @@ public class ProdottoController {
 			@RequestParam (required = true) String tipo,
 			@RequestParam (required = true) String  qualita
 			) {
+		if(qualita.isEmpty()) {
+			Messaggio msg =  new Messaggio("Prodotto non salvato. Causa: Specificare la qualità del prodotto. Es(Tipo:Uva nera da vino - Qualita' : Sangiovese)", EnumTipoMessaggio.WARNING.getTipo());
+			msgCorrente = msg;
+			return new ModelAndView("redirect:/prodotto/all");
+		}
 		Prodotto p = new Prodotto(tipo);
 		String[] qualitaInserite = qualita.split("#");
 		for(int i = 0;i<qualitaInserite.length;i++) {

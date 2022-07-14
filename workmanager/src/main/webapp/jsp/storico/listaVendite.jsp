@@ -51,7 +51,7 @@
 		            	<td>&euro; ${vendita.totaleParziale}</td>
 		            	<td>&euro; ${vendita.costoTrasporto}</td>
 		            	<td>&euro; ${vendita.totale}</td>
-			            <td><a class="btn btn-sm btn-primary" href="/vendita/vaiModificaVendita?idVendita=${vendita.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+			            <td></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>

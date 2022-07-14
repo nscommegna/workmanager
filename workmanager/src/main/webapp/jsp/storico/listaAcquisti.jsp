@@ -60,7 +60,7 @@
 		            	<td>${acquisto.prezzo}</td>
 		            	<td>${acquisto.totale}</td>
 		            	<td>${acquisto.cantinaScarico.ragioneSociale}</td>
-			            <td><a class="btn btn-sm btn-primary" href="/acquisto/vaiModificaAcquisto?idAcquisto=${acquisto.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+			            <td></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>

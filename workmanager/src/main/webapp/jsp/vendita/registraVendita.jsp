@@ -61,7 +61,7 @@
 				</div>
 				<div class="col-md-2">
 					<label for="costoTrasporto" class="form-label">Costo trasporto al kg (&euro;)</label><br>
-					<input  type="number" step=".01" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" required>
+					<input  type="number" step=".0001" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" required>
 				</div>
 				<div class="col-md-2">
 					<label for="totale" class="form-label">Totale trasporto</label><br>
@@ -110,25 +110,11 @@ $( "#costoTrasporto" ).change(function() {
 function calcolaTotaleParziale(){
 	var prezzo = Number($( "#prezzo" ).val());
 	var kili = Number($( "#kili" ).val());
-	if(prezzo != 0 && kili != 0 ){
 		var totale = prezzo * kili;
 		$("#totaleParziale").attr("readonly", false);
 		$( "#totaleParziale" ).val(totale.toFixed(2));
 		$("#totaleParziale").attr("readonly", true);
 		return;
-	}
-	if(prezzo == 0 || kili != 0 ){
-		$("#totaleParziale").attr("readonly", false);
-		$( "#totaleParziale" ).val('');
-		$("#totaleParziale").attr("readonly", true);
-		return;
-	}
-	if(prezzo != 0 || kili == 0 ){
-		$("#totaleParziale").attr("readonly", false);
-		$( "#totaleParziale" ).val('');
-		$("#totaleParziale").attr("readonly", true);
-		return;
-	}
 }
 
 function calcolaTotale(){

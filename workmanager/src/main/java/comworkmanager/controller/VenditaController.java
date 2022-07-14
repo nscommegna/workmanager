@@ -311,10 +311,25 @@ public class VenditaController {
 		return new ModelAndView("redirect:/vendita/all");
 
 	}
-
+	
+	@PostMapping("/eliminaVendita")
+	public ModelAndView eliminaVendita(ModelMap model,
+			@RequestParam (required = false) String idVendita) throws NumberFormatException, ParseException {
+		Vendita vendita = venditaService.findVenditaById(Long.valueOf(idVendita));
+		venditaService.storicizza(vendita);
+		Messaggio msg =  new Messaggio("Vendita vendita con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;
+		return new ModelAndView("redirect:/vendita/all");
+	}
+	
 	@RequestMapping(value = "/removeMessage", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody String postEmployeeData(ModelMap model) {
 		msgCorrente = null;
 		return "200";
 	}
 }
+
+
+
+//TODO - media prezzo in lista acquisti e vendite a 4 cifre
+//TODO - modifica tutti i campi in vendita acquisto e pagamento

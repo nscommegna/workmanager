@@ -64,7 +64,6 @@ public class AnnataConclusa implements Serializable{
 	}
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
 		AcquistoStorico a = (AcquistoStorico) obj;
 		return this.getId().equals(a.getId());
 	}

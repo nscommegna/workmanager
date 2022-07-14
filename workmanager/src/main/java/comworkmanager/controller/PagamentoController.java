@@ -90,6 +90,15 @@ public class PagamentoController {
 		
 	}
 	
+	@PostMapping("/eliminaPagamento")
+	public ModelAndView eliminaPagamento(ModelMap model,
+			@RequestParam (required = false) String idPagamento) throws NumberFormatException, ParseException {
+		Pagamento p = pagamentoService.findPagamentoById(Long.valueOf(idPagamento));
+		pagamentoService.storicizza(p);
+		Messaggio msg =  new Messaggio("Pagamento eliminato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;
+		return new ModelAndView("redirect:/pagamento/all");
+	}
 	
 	@RequestMapping(value = "/removeMessage", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody String postEmployeeData(ModelMap model) {

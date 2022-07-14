@@ -140,7 +140,6 @@ public class Acquisto implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 		Acquisto v = (Acquisto) obj;
-		// TODO Auto-generated method stub
 		return this.getId().equals(v.getId());
 	}
 	

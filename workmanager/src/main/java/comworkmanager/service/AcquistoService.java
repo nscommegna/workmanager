@@ -39,6 +39,10 @@ public class AcquistoService {
 		 acquistoRepo.delete(acquisto);
 	}
 	
+	public void delete(Acquisto acquisto) {
+		 acquistoRepo.delete(acquisto);
+	}
+	
 	public Double getSumImportoAcquistato() {
 		List<Double> importi = new ArrayList<Double>();
 		Double tot = 0.00;

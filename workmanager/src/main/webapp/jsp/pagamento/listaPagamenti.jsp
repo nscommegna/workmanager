@@ -45,7 +45,10 @@
 		            	<td><fmt:formatDate value="${pagamento.dataPagamento}" pattern="dd/MM/yyyy" /></td>
 			            <td>&euro; ${pagamento.importo}</td>
 			            <td>${pagamento.fornitore.cognome} ${pagamento.fornitore.nome} - ${pagamento.fornitore.indirizzo}</td>
-		           		<td><button data-importo="${pagamento.importo}" data-id="${pagamento.id} "id="btnModificaPagamento"  class="btn btn-sm btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button></td>
+		           		<td>
+			           		<button data-importo="${pagamento.importo}" data-id="${pagamento.id} "id="btnModificaPagamento"  class="btn btn-sm btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button>
+			           		<a class="btn btn-sm btn-danger" id="btnDelte" data-id="${pagamento.id}"><i class="fa-solid fa-trash-can"></i></a>
+		           		</td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
@@ -53,6 +56,27 @@
 	    </div>
    </div>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form action="/pagamento/eliminaPagamento" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Elimina pagamento</h5>
+      </div>
+      <div class="modal-body">
+        <p>Sei sicuro di voler eliminare questo pagamento? Attenzione, l'azione è irreversibile.</p>
+        <input type="text" id="idPagamentoElimina" name="idPagamento" hidden >
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Elimina</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 <!-- Modal pagamento-->
 <div class="modal fade" id="modalPagamento" tabindex="-1" aria-labelledby="modalPagamentoLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -81,6 +105,11 @@
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 <script>
 $(document).ready(function() {
+	$( "#btnDelte" ).click(function() {
+		$( "#idPagamentoElimina" ).val($(this).attr("data-id"));
+		$('#deleteModal').modal('toggle')
+	});
+	
 	 $('#example').DataTable({
 	        dom: 'Bfrtip',
 	        buttons: [

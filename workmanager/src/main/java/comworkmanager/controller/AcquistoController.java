@@ -212,6 +212,16 @@ public class AcquistoController {
 		
 	}
 	
+	@PostMapping("/eliminaAcquisto")
+	public ModelAndView eliminaAcquisto(ModelMap model,
+			@RequestParam (required = false) String idAcquisto) throws NumberFormatException, ParseException {
+		Acquisto acquisto = acquistoService.findAcquistoById(Long.valueOf(idAcquisto));
+		acquistoService.storicizza(acquisto);
+		Messaggio msg =  new Messaggio("Acquisto eliminato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
+		msgCorrente = msg;
+		return new ModelAndView("redirect:/acquisto/all");
+	}
+	
 	@GetMapping("/vaiModificaAcquisto")
 	public String vaiModificaAcquisto(ModelMap model,
 			@RequestParam(required = true) String idAcquisto) {
@@ -274,6 +284,5 @@ public class AcquistoController {
 		msgCorrente = null;
 		return "200";
 	}
-	
-	//TODO - cambiare  
+	 
 }

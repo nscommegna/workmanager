@@ -34,7 +34,7 @@
 		            	<td><fmt:formatDate value="${pagamento.dataPagamento}" pattern="dd/MM/yyyy" /></td>
 			            <td>&euro; ${pagamento.importo}</td>
 			            <td>${pagamento.fornitore.cognome} ${pagamento.fornitore.nome} - ${pagamento.fornitore.indirizzo}</td>
-		           		<td><button data-importo="${pagamento.importo}" data-id="${pagamento.id} "id="btnModificaPagamento"  class="btn btn-sm btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button></td>
+		           		<td></td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
@@ -111,12 +111,7 @@ $(document).ready(function() {
 	                    }
 	                });
 	            });
-	 $('#btnModificaPagamento').click(function ()
-	            {	
-		 			$('#importo').val(this.dataset.importo.trim());
-		 			$('#idPagamentoModal').val(this.dataset.id.trim());
-		 			$('#modalPagamento').modal('show');
-	            });
+	
 } );
 </script>
 

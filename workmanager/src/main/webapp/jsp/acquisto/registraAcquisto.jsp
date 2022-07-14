@@ -93,25 +93,11 @@ $( "#prezzo" ).change(function() {
 function calcolaTotale(){
 	var prezzo = Number($( "#prezzo" ).val());
 	var kili = Number($( "#kili" ).val());
-	if(prezzo != 0 && kili != 0 ){
 		var totale = prezzo * kili;
 		$("#totale").attr("readonly", false);
 		$( "#totale" ).val(totale.toFixed(2));
 		$("#totale").attr("readonly", true);
 		return;
-	}
-	if(prezzo == 0 || kili != 0 ){
-		$("#totale").attr("readonly", false);
-		$( "#totale" ).val('');
-		$("#totale").attr("readonly", true);
-		return;
-	}
-	if(prezzo != 0 || kili == 0 ){
-		$("#totale").attr("readonly", false);
-		$( "#totale" ).val('');
-		$("#totale").attr("readonly", true);
-		return;
-	}
 }
 </script>
 <jsp:include page="../general/footer.jsp"></jsp:include>

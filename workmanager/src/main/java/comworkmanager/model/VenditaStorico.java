@@ -199,7 +199,6 @@ public class VenditaStorico implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 		VenditaStorico v = (VenditaStorico) obj;
-		// TODO Auto-generated method stub
 		return this.getId().equals(v.getId());
 	}
 

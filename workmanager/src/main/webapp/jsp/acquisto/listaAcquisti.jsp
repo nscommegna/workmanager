@@ -97,7 +97,10 @@
 		            	<td>${acquisto.prezzo}</td>
 		            	<td>${acquisto.totale}</td>
 		            	<td>${acquisto.cantinaScarico.ragioneSociale}</td>
-			            <td><a class="btn btn-sm btn-primary" href="/acquisto/vaiModificaAcquisto?idAcquisto=${acquisto.id}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+			            <td>
+				            <a class="btn btn-sm btn-primary" href="/acquisto/vaiModificaAcquisto?idAcquisto=${acquisto.id}"><i class="fa-solid fa-pen-to-square"></i></a>
+				            <a class="btn btn-sm btn-danger" id="btnDelte" data-id="${acquisto.id}"><i class="fa-solid fa-trash-can"></i></a>
+			            </td>
 		           </tr>
 	            </c:forEach>
 	        </tbody>
@@ -105,12 +108,39 @@
 	    </div>
    </div>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form action="/acquisto/eliminaAcquisto" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Elimina acquisto</h5>
+      </div>
+      <div class="modal-body">
+        <p>Sei sicuro di voler eliminare questo acquisto? Attenzione, l'azione è irreversibile.</p>
+        <input type="text" id="idAcquistoElimina" name="idAcquisto" hidden >
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Elimina</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 
 <script>
 
 var ricercaAvanzataHidden = true;
 $(document).ready(function() {
+	
+	$( "#btnDelte" ).click(function() {
+		$( "#idAcquistoElimina" ).val($(this).attr("data-id"));
+		$('#deleteModal').modal('toggle')
+	});
+	
+	
 	$("#rowRicercaAvanzata").attr("hidden", true);
 	
 	$('.select-cliente').selectpicker();

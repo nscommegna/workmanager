@@ -183,7 +183,6 @@ public class Vendita implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 		Vendita v = (Vendita) obj;
-		// TODO Auto-generated method stub
 		return this.getId().equals(v.getId());
 	}
 
