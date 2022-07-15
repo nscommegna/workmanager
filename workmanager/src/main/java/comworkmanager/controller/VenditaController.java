@@ -88,7 +88,7 @@ public class VenditaController {
 		if(vendite.size() != 0) {
 			Double importoTotaleVenduto = Util.calcolaTotaleVendite(vendite);
 			Double quantitaTotaleVenduta = Util.calcolaTotaleQuantitaProdottoVenduta(vendite);
-			Double mediaPrezzo = Util.roundTo2Digit(importoTotaleVenduto/quantitaTotaleVenduta);
+			Double mediaPrezzo = Util.roundTo4Digit(importoTotaleVenduto/quantitaTotaleVenduta);
 			
 			model.addAttribute("importoTotaleVenduto",importoTotaleVenduto);
 			model.addAttribute("quantitaTotaleVenduta", quantitaTotaleVenduta);
@@ -330,6 +330,3 @@ public class VenditaController {
 }
 
 
-
-//TODO - media prezzo in lista acquisti e vendite a 4 cifre
-//TODO - modifica tutti i campi in vendita acquisto e pagamento

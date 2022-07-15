@@ -23,6 +23,7 @@ import comworkmanager.model.Acquisto;
 import comworkmanager.model.Cliente;
 import comworkmanager.model.Fornitore;
 import comworkmanager.model.Mezzo;
+import comworkmanager.model.Prodotto;
 import comworkmanager.model.QualitaProdotto;
 import comworkmanager.modelSpecifications.AcquistoSearch;
 import comworkmanager.modelSpecifications.AcquistoSpecs;
@@ -84,7 +85,7 @@ public class AcquistoController {
 		if(acquisti.size() != 0) {
 			Double importoTotaleAcquistato = Util.calcolaTotaleAcquisti(acquisti);
 			Double quantitaTotaleAcquistata = Util.calcolaTotaleQuantitaProdottoAcquistata(acquisti);
-			Double mediaPrezzo = Util.roundTo2Digit(importoTotaleAcquistato/quantitaTotaleAcquistata);
+			Double mediaPrezzo = Util.roundTo4Digit(importoTotaleAcquistato/quantitaTotaleAcquistata);
 			
 			model.addAttribute("importoTotaleAcquistato",importoTotaleAcquistato);
 			model.addAttribute("quantitaTotaleAcquistata", quantitaTotaleAcquistata);
@@ -232,6 +233,12 @@ public class AcquistoController {
 		List<Cliente> clienti = clienteService.findAllClienti();
 		model.addAttribute("clienti", clienti);
 		
+		List<Fornitore> fornitori = fornitoreService.findAllFornitori();
+		model.addAttribute("fornitori", fornitori);
+		
+		List<QualitaProdotto> qualitaProdotti = qualitaProdottoService.findAllQualitaProdotto();
+		model.addAttribute("qualitaProdotti", qualitaProdotti);
+		
 		List<Mezzo> mezzi = mezzoService.findAll();
 		model.addAttribute("mezzi", mezzi);
 		return MODIFICA_ACQUISTO;
@@ -240,10 +247,14 @@ public class AcquistoController {
 	
 	@PostMapping("/modificaAcquisto")
 	public ModelAndView modificaAcquisto(ModelMap model,
-			@RequestParam (required = false) String dataAcquisto,
+			@RequestParam (required = true) String dataAcquisto,
 			@RequestParam (required = false) String cantinaDestinazione,
 			@RequestParam (required = false) String mezzo,
-			@RequestParam (required = true) String idAcquisto
+			@RequestParam (required = true) String idAcquisto,
+			@RequestParam (required = true) String fornitore,
+			@RequestParam (required = true) Double kili,
+			@RequestParam (required = true) Double prezzo,
+			@RequestParam (required = true) String prodottoQualita
 			) throws ParseException {
 		
 		Acquisto a = acquistoService.findAcquistoById(Long.valueOf(idAcquisto));
@@ -272,6 +283,21 @@ public class AcquistoController {
 				a.setCantinaScarico(c);
 			}
 		}
+		if(fornitore != null && !fornitore.equals("")) {
+			if(fornitore.equals("-1")) {
+				a.setFornitore(null);
+			}
+			else {
+				Fornitore f = new Fornitore();
+				f.setId(Long.valueOf(fornitore));
+				a.setFornitore(f);
+			}
+		}
+		a.setQuantita(kili);
+		a.setPrezzo(prezzo);
+		a.setTotale(kili * prezzo);
+		QualitaProdotto qualitaProdotto = qualitaProdottoService.findQualitaProdottoById(Long.valueOf(prodottoQualita));
+		a.setProdotto(qualitaProdotto);
 		acquistoService.addAcquisto(a);
 		Messaggio msg =  new Messaggio("Acquisto modificato con successo", EnumTipoMessaggio.SUCCESS.getTipo());
 		msgCorrente = msg;

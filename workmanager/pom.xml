@@ -65,7 +65,10 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-    	<finalName>workmanager-api-docker</finalName>
+		<!-- uva -->
+    	<!-- <finalName>workmanager-api-docker</finalName> -->
+    	<!-- pesche -->
+    	<finalName>workmanager-pesche-api-docker</finalName>
 	</build>
 
 </project>
