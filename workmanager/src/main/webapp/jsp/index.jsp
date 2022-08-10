@@ -6,8 +6,8 @@
 <div class="container">
   <!-- Content here -->
    <div class="row">
-   		<spring:eval expression="@environment.getProperty('azienda.ragioneSociale')" var="azienda" />
-   		<h1 class="display-4 text-center mt-4">WorkManger ${azienda}</h1>
+   		<spring:eval expression="@environment.getProperty('spring.application.name')" var="azienda" />
+   		<h1 class="display-4 text-center mt-4">${azienda}</h1>
    </div>
    <br>
    <div class="row justify-content-center">
@@ -118,7 +118,7 @@
       	</div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Chiudi annata</button>
+        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Chiudi annata</button>
       </div>
       </form>
     </div>

@@ -72,4 +72,12 @@ public class Util {
 		BigDecimal bd = new BigDecimal(value).setScale(4, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
 	}
+
+	public static Double calcolaTotaleTrasporto(List<Vendita> vendite) {
+		Double tot = 0.00;
+		for(Vendita p : vendite) {
+			tot += p.getCostoTrasporto() * p.getQuantita() + (p.getCostoTrasporto() * p.getQuantita() * 0.22);
+		}
+	    return roundTo2Digit(tot);
+	}
 }

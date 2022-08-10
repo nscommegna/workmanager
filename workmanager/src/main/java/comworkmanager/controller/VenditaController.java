@@ -89,14 +89,16 @@ public class VenditaController {
 			Double importoTotaleVenduto = Util.calcolaTotaleVendite(vendite);
 			Double quantitaTotaleVenduta = Util.calcolaTotaleQuantitaProdottoVenduta(vendite);
 			Double mediaPrezzo = Util.roundTo4Digit(importoTotaleVenduto/quantitaTotaleVenduta);
-			
+			Double totaleTrasporto = Util.calcolaTotaleTrasporto(vendite);
 			model.addAttribute("importoTotaleVenduto",importoTotaleVenduto);
 			model.addAttribute("quantitaTotaleVenduta", quantitaTotaleVenduta);
 			model.addAttribute("mediaPrezzo", mediaPrezzo);
+			model.addAttribute("totaleTrasporto", totaleTrasporto);
 		}else {
 			model.remove("importoTotaleVenduto");
 			model.remove("quantitaTotaleVenduta");
 			model.remove("mediaPrezzo");
+			model.remove("totaleTrasporto");
 		}
 		
 		model.addAttribute(TITLE_PAGE, "Elenco vendite");
@@ -148,15 +150,17 @@ public class VenditaController {
 		if(vendite.size() != 0) {
 			Double importoTotaleVenduto = Util.calcolaTotaleVendite(vendite);
 			Double quantitaTotaleVenduta = Util.calcolaTotaleQuantitaProdottoVenduta(vendite);
-			Double mediaPrezzo = Util.roundTo2Digit(importoTotaleVenduto/quantitaTotaleVenduta);
-			
+			Double mediaPrezzo = Util.roundTo4Digit(importoTotaleVenduto/quantitaTotaleVenduta);
+			Double totaleTrasporto = Util.calcolaTotaleTrasporto(vendite);
 			model.addAttribute("importoTotaleVenduto",importoTotaleVenduto);
 			model.addAttribute("quantitaTotaleVenduta", quantitaTotaleVenduta);
 			model.addAttribute("mediaPrezzo", mediaPrezzo);
+			model.addAttribute("totaleTrasporto", totaleTrasporto);
 		}else {
 			model.remove("importoTotaleVenduto");
 			model.remove("quantitaTotaleVenduta");
 			model.remove("mediaPrezzo");
+			model.remove("totaleTrasporto");
 		}
 		model.addAttribute(TITLE_PAGE, "Elenco vendite");
 		return LISTA_VENDITE;
@@ -217,11 +221,11 @@ public class VenditaController {
 		}
 		// calcolo totale e approssimo a 4 cifre dopo la virgola
 		Double totParziale = prezzo * kili;
-		BigDecimal bd = new BigDecimal(totParziale).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal bd = new BigDecimal(totParziale).setScale(4, RoundingMode.HALF_UP);
 		double totParzialeFormatted = bd.doubleValue();
 		double prezzoTrasporto = (costoTrasporto * kili) + (costoTrasporto*kili*0.22);
 		Double totale = totParziale + prezzoTrasporto;
-		BigDecimal bd2 = new BigDecimal(totale).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal bd2 = new BigDecimal(totale).setScale(4, RoundingMode.HALF_UP);
 		double totFormatted = bd2.doubleValue();
 
 		Vendita v = new Vendita(date, objCliente, qualitaProdotto, objMezzo, numeroDoc, kili, prezzo,

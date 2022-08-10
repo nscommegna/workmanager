@@ -60,7 +60,7 @@
 				</div>
 				<div class="col-md-2">
 				<br>
-				    <button type="submit" class="btn btn-primary">Mostra risultati</button>
+				    <button type="submit"  class="btn btn-primary">Mostra risultati</button>
 				 </div>
 			</form>
    		</div>
@@ -99,7 +99,7 @@
 		            	<td>${acquisto.cantinaScarico.ragioneSociale}</td>
 			            <td>
 				            <a class="btn btn-sm btn-primary" href="/acquisto/vaiModificaAcquisto?idAcquisto=${acquisto.id}"><i class="fa-solid fa-pen-to-square"></i></a>
-				            <a class="btn btn-sm btn-danger" id="btnDelte" data-id="${acquisto.id}"><i class="fa-solid fa-trash-can"></i></a>
+				            <a class="btn btn-sm btn-danger btnDelete" data-id="${acquisto.id}"><i class="fa-solid fa-trash-can"></i></a>
 			            </td>
 		           </tr>
 	            </c:forEach>
@@ -121,7 +121,7 @@
         <input type="text" id="idAcquistoElimina" name="idAcquisto" hidden >
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Elimina</button>
+        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Elimina</button>
       </div>
       </form>
     </div>
@@ -135,7 +135,7 @@
 var ricercaAvanzataHidden = true;
 $(document).ready(function() {
 	
-	$( "#btnDelte" ).click(function() {
+	$( ".btnDelete" ).click(function() {
 		$( "#idAcquistoElimina" ).val($(this).attr("data-id"));
 		$('#deleteModal').modal('toggle')
 	});

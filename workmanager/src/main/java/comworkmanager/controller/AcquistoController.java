@@ -142,6 +142,20 @@ public class AcquistoController {
 		List<QualitaProdotto> qualitaProdotti = qualitaProdottoService.findAllQualitaProdotto();
 		model.addAttribute("qualitaProdotti", qualitaProdotti);
 		
+		if(acquisti.size() != 0) {
+			Double importoTotaleAcquistato = Util.calcolaTotaleAcquisti(acquisti);
+			Double quantitaTotaleAcquistata = Util.calcolaTotaleQuantitaProdottoAcquistata(acquisti);
+			Double mediaPrezzo = Util.roundTo4Digit(importoTotaleAcquistato/quantitaTotaleAcquistata);
+			
+			model.addAttribute("importoTotaleAcquistato",importoTotaleAcquistato);
+			model.addAttribute("quantitaTotaleAcquistata", quantitaTotaleAcquistata);
+			model.addAttribute("mediaPrezzo", mediaPrezzo);
+		}else {
+			model.remove("importoTotaleAcquistato");
+			model.remove("quantitaTotaleAcquistata");
+			model.remove("mediaPrezzo");
+		}
+		
 		model.addAttribute(TITLE_PAGE, "Elenco acquisti");
 		return LISTA_ACQUISTI;
 		
@@ -202,7 +216,7 @@ public class AcquistoController {
 		}
 		//calcolo totale e approssimo a 2 cifre dopo la virgola
 		Double tot = prezzo*kili;
-		BigDecimal bd = new BigDecimal(tot).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal bd = new BigDecimal(tot).setScale(4, RoundingMode.HALF_UP);
 	    double totFormatted = bd.doubleValue();
 		Acquisto acquisto = new Acquisto(date, objFornitore, qualitaProdotto, objMezzo, kili, prezzo, totFormatted, cantinaScarico);
 		acquistoService.addAcquisto(acquisto);
@@ -295,7 +309,9 @@ public class AcquistoController {
 		}
 		a.setQuantita(kili);
 		a.setPrezzo(prezzo);
-		a.setTotale(kili * prezzo);
+		BigDecimal bd = new BigDecimal(kili * prezzo).setScale(4, RoundingMode.HALF_UP);
+	    double totFormatted = bd.doubleValue();
+		a.setTotale(totFormatted);
 		QualitaProdotto qualitaProdotto = qualitaProdottoService.findQualitaProdottoById(Long.valueOf(prodottoQualita));
 		a.setProdotto(qualitaProdotto);
 		acquistoService.addAcquisto(a);

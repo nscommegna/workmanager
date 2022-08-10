@@ -73,7 +73,7 @@
 				</div>
 				<div class="col-12">
 				<br>
-				    <button type="submit" class="btn btn-primary">Registra vendita</button>
+				    <button type="submit"  onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Registra vendita</button>
 				 </div>
 			 </form>
 	    </div>

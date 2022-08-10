@@ -21,14 +21,17 @@
    		</div>
    		<c:if test="${not empty importoTotaleVenduto }">
 	   		<div class="row">
-		   			<div class="col-md-4">
-		   				<h5>Totale importo venduto : &euro; ${importoTotaleVenduto}</h5>
+		   			<div class="col-md-3">
+		   				<h5>Importo venduto : &euro; ${importoTotaleVenduto}</h5>
 		   			</div>
-		   			<div class="col-md-4">
-		   				<h5>Totale quantita venduta : ${quantitaTotaleVenduta}</h5>
+		   			<div class="col-md-3">
+		   				<h5>Quantita venduta : ${quantitaTotaleVenduta}</h5>
 		   			</div>
-		   			<div class="col-md-4">
+		   			<div class="col-md-3">
 		   				<h5>Media prezzo : &euro; ${mediaPrezzo}</h5>
+		   			</div>
+		   			<div class="col-md-3">
+		   				<h5>Totale trasporto : &euro; ${totaleTrasporto}</h5>
 		   			</div>
 	   		</div>
    		</c:if>
@@ -44,9 +47,9 @@
 				</div>
 				<div class="col-md-3">
 						<label for="fornitore" class="form-label">Cliente</label><br>
-						<select class="select-fornitore col-md-12" data-live-search="true" name="fornitore" required>
+						<select class="select-fornitore col-md-12" data-live-search="true" name="cliente" required>
 						<option value="-1" data-tokens="Non specificare il cliente">Non specificare il cliente</option>
-							<c:forEach var="cliente" items="${clienti }">
+							<c:forEach var="cliente" items="${clienti}">
 								<option value="${cliente.id}" data-tokens="${cliente.ragioneSociale}">${cliente.ragioneSociale}</option>
 							</c:forEach>
 						</select>
@@ -79,12 +82,12 @@
 	                <th>Data Vendita</th>
 	                <th>Cliente</th>
 	                <th>Prodotto/Qualit&agrave;</th>
-	                <th>Trasportatore</th>
 	                <th>Mezzo</th>
 	                <th>Kg</th>
 	                <th>Prezzo di vendita</th>
 	                <th>Totale parziale</th>
 	                <th>Costo trasporto</th>
+	                <th>Totale trasporto</th>
 	                <th>Totale</th>
 	                <th>Funzioni</th>
 	            </tr>
@@ -96,12 +99,12 @@
 		            	<td><fmt:formatDate value="${vendita.dataVendita}" pattern="dd/MM/yyyy" /></td>
 		            	<td>${vendita.cliente.ragioneSociale}</td>
 		            	<td>${vendita.prodotto.prodotto.tipo} - ${vendita.prodotto.qualita}</td>
-		            	<td>${vendita.mezzo.trasportatore.nome}</td>
 		            	<td>${vendita.mezzo.targa}</td>
 		            	<td>${vendita.quantita}</td>
 		            	<td>&euro; ${vendita.prezzo}</td>
 		            	<td>&euro; ${vendita.totaleParziale}</td>
 		            	<td>&euro; ${vendita.costoTrasporto}</td>
+		            	<td class="rounded">&euro; ${vendita.costoTrasporto * vendita.quantita +(vendita.costoTrasporto * vendita.quantita * 0.22)}</td>
 		            	<td>&euro; ${vendita.totale}</td>
 			            <td>
 				            <a class="btn btn-sm btn-primary" href="/vendita/vaiModificaVendita?idVendita=${vendita.id}"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -121,11 +124,11 @@
         <h5 class="modal-title" id="exampleModalLabel">Elimina vendita</h5>
       </div>
       <div class="modal-body">
-        <p>Sei sicuro di voler eliminare questa vendita? Attenzione, l'azione è irreversibile.</p>
+        <p>Sei sicuro di voler eliminare questa vendita? Attenzione, l'azione Ã¨ irreversibile.</p>
         <input type="text" id="idVenditaElimina" name="idVendita" hidden >
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Elimina</button>
+        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Elimina</button>
       </div>
       </form>
     </div>
@@ -139,6 +142,14 @@
 
 var ricercaAvanzataHidden = true;
 $(document).ready(function() {
+	
+	$('.rounded').text(function(i,curr){
+		curr = curr.trim();
+		var string = curr.split(" ");
+		var euro = string[0];
+		var tot = string[1];
+	    return euro +" "+ parseFloat(tot).toFixed(2);
+	})
 	
 	$( "#btnDelte" ).click(function() {
 		$( "#idVenditaElimina" ).val($(this).attr("data-id"));
@@ -179,10 +190,28 @@ $(document).ready(function() {
 	        		
 	        		},
 	        		orientation: 'landscape'
+	            },
+	            {
+	                text: 'Copia nr Doc',
+	                action: function ( e, dt, node, config ) {
+	                	var data = this.column().data();
+	                	console.log(data.length);
+	                	var copyString = '';
+	                	for (var i = 0; i < data.length; i++) {
+	                	    copyString = copyString + data[i] + " ";
+	                	}
+	                	console.log(copyString);
+	                	navigator.clipboard.writeText(copyString);
+	                	/* Alert the copied text */
+	                	alert("I nr di documento sono stati copiati!");
+	                }
 	            }
 	        ]
 	    });
-
+	
+	 
+	 
+	 
 	 $('#btn_close_msg').click(function ()
 	            {
 	                $.ajax({

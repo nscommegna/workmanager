@@ -43,7 +43,7 @@
 				</div>
 				<div class="col-md-2">
 					<label for="prezzo" class="form-label">Prezzo (&euro;)</label><br>
-					<input type="number" min="0" class="form-control" id="prezzo"
+					<input type="number" min="0" step=".0001" class="form-control" id="prezzo"
 						name="prezzo" value="${acquisto.prezzo}"
 						placeholder="Prezzo al kg"  required>
 				</div>
@@ -82,7 +82,7 @@
 					required>
 
 				<div class="col-12">
-					<button type="submit" class="btn btn-primary">Salva
+					<button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Salva
 						modifiche</button>
 				</div>
 			</form>
