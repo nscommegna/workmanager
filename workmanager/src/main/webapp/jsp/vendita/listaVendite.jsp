@@ -108,7 +108,7 @@
 		            	<td>&euro; ${vendita.totale}</td>
 			            <td>
 				            <a class="btn btn-sm btn-primary" href="/vendita/vaiModificaVendita?idVendita=${vendita.id}"><i class="fa-solid fa-pen-to-square"></i></a>
-				            <a class="btn btn-sm btn-danger" id="btnDelte" data-id="${vendita.id}"><i class="fa-solid fa-trash-can"></i></a>
+				            <a class="btn btn-sm btn-danger btnDelte" data-id="${vendita.id}"><i class="fa-solid fa-trash-can"></i></a>
 			            </td>
 		           </tr>
 	            </c:forEach>
@@ -128,7 +128,7 @@
         <input type="text" id="idVenditaElimina" name="idVendita" hidden >
       </div>
       <div class="modal-footer">
-        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Elimina</button>
+        <button type="submit"   class="btn btn-primary">Elimina</button>
       </div>
       </form>
     </div>
@@ -151,7 +151,7 @@ $(document).ready(function() {
 	    return euro +" "+ parseFloat(tot).toFixed(2);
 	})
 	
-	$( "#btnDelte" ).click(function() {
+	$( ".btnDelte" ).click(function() {
 		$( "#idVenditaElimina" ).val($(this).attr("data-id"));
 		$('#deleteModal').modal('toggle')
 	});

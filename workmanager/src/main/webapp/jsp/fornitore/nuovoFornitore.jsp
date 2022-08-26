@@ -49,7 +49,7 @@
 				</div>
 				
 				<div class="col-12">
-				    <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Salva</button>
+				    <button type="submit"   class="btn btn-primary">Salva</button>
 				 </div>
 			 </form>
 	    </div>

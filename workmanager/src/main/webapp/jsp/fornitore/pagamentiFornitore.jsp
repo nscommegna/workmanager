@@ -75,7 +75,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-	        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Effettua pagamento</button>
+	        <button type="submit"   class="btn btn-primary">Effettua pagamento</button>
 	      </div>
        </form>
     </div>

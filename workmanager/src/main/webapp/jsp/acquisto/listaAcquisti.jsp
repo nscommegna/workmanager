@@ -121,7 +121,7 @@
         <input type="text" id="idAcquistoElimina" name="idAcquisto" hidden >
       </div>
       <div class="modal-footer">
-        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Elimina</button>
+        <button type="submit"   class="btn btn-primary">Elimina</button>
       </div>
       </form>
     </div>

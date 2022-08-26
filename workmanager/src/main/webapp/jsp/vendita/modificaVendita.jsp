@@ -61,7 +61,7 @@
 				</div>
 				<div class="col-md-2">
 					<label for="costoTrasporto" class="form-label">Costo trasporto al kg (&euro;)</label><br>
-					<input  type="number" step=".01" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" value="${vendita.costoTrasporto }" required>
+					<input  type="number" step=".0001" min="0" class="form-control" id="costoTrasporto" name="costoTrasporto" placeholder="Costo trasporto" value="${vendita.costoTrasporto }" required>
 				</div>
 				<div class="col-md-2">
 					<label for="totale" class="form-label">Totale trasporto + IVA</label><br>

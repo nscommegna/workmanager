@@ -47,7 +47,7 @@
 			            <td>${pagamento.fornitore.cognome} ${pagamento.fornitore.nome} - ${pagamento.fornitore.indirizzo}</td>
 		           		<td>
 			           		<button data-importo="${pagamento.importo}" data-id="${pagamento.id} "id="btnModificaPagamento"  class="btn btn-sm btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button>
-			           		<a class="btn btn-sm btn-danger" id="btnDelte" data-id="${pagamento.id}"><i class="fa-solid fa-trash-can"></i></a>
+			           		<a class="btn btn-sm btn-danger btnDelte"  data-id="${pagamento.id}"><i class="fa-solid fa-trash-can"></i></a>
 		           		</td>
 		           </tr>
 	            </c:forEach>
@@ -69,7 +69,7 @@
         <input type="text" id="idPagamentoElimina" name="idPagamento" hidden >
       </div>
       <div class="modal-footer">
-        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Elimina</button>
+        <button type="submit"   class="btn btn-primary">Elimina</button>
       </div>
       </form>
     </div>
@@ -95,7 +95,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-	        <button type="submit" onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Modifica pagamento</button>
+	        <button type="submit"   class="btn btn-primary">Modifica pagamento</button>
 	      </div>
        </form>
     </div>
@@ -105,7 +105,7 @@
 <jsp:include page="../general/subfooter.jsp"></jsp:include>
 <script>
 $(document).ready(function() {
-	$( "#btnDelte" ).click(function() {
+	$( ".btnDelte" ).click(function() {
 		$( "#idPagamentoElimina" ).val($(this).attr("data-id"));
 		$('#deleteModal').modal('toggle')
 	});

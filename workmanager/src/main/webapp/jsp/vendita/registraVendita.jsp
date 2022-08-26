@@ -16,7 +16,7 @@
 		   	<form class="row g-3" action="/vendita/salvaVendita" method="POST">
 				<div class="col-md-3">
 					<label for="numeroDoc" class="form-label">Numero documento</label><br>
-					<input type="text" class="form-control" id="numeroDoc" name="numeroDoc" placeholder="Numero doc" required>
+					<input type="text" class="form-control" maxlength="10" id="numeroDoc" name="numeroDoc" placeholder="Numero doc" required>
 				</div>
 				<div class="mb-3 col-md-3">
 				  <label for="dataVendita" class="form-label">Data vendita</label>
@@ -73,7 +73,7 @@
 				</div>
 				<div class="col-12">
 				<br>
-				    <button type="submit"  onclick="this.disabled=true;this.value='Submitting...'; this.form.submit();" class="btn btn-primary">Registra vendita</button>
+				    <button type="submit"  class="btn btn-primary">Registra vendita</button>
 				 </div>
 			 </form>
 	    </div>
