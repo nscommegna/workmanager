@@ -22,16 +22,16 @@
    		<c:if test="${not empty importoTotaleVenduto }">
 	   		<div class="row">
 		   			<div class="col-md-3">
-		   				<h5>Importo venduto : &euro; ${importoTotaleVenduto}</h5>
+		   				<h5>Importo venduto : &euro; <fmt:formatNumber type="number" maxFractionDigits="4" value="${importoTotaleVenduto}" /></h5>
 		   			</div>
 		   			<div class="col-md-3">
-		   				<h5>Quantita venduta : ${quantitaTotaleVenduta}</h5>
+		   				<h5>Quantita venduta : <fmt:formatNumber type="number" maxFractionDigits="4" value="${quantitaTotaleVenduta}"/></h5>
 		   			</div>
 		   			<div class="col-md-3">
-		   				<h5>Media prezzo : &euro; ${mediaPrezzo}</h5>
+		   				<h5>Media prezzo : &euro; <fmt:formatNumber type="number" maxFractionDigits="4" value="${mediaPrezzo}"/></h5>
 		   			</div>
 		   			<div class="col-md-3">
-		   				<h5>Totale trasporto : &euro; ${totaleTrasporto}</h5>
+		   				<h5>Totale trasporto : &euro; <fmt:formatNumber type="number" maxFractionDigits="4" value="${totaleTrasporto}"/></h5>
 		   			</div>
 	   		</div>
    		</c:if>
@@ -164,6 +164,7 @@ $(document).ready(function() {
 	
 	 $('#example').DataTable({
 	        dom: 'Bfrtip',
+	        "order": [],
 	        buttons: [
 	            {
 	                text: 'Nuova vendita',
@@ -206,7 +207,12 @@ $(document).ready(function() {
 	                	alert("I nr di documento sono stati copiati!");
 	                }
 	            }
-	        ]
+	        ],
+	        columnDefs: [ {
+	        	"targets": 1,
+	        	"orderable": false,
+
+	        	} ]
 	    });
 	
 	 

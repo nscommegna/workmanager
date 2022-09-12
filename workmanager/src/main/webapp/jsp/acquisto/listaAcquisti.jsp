@@ -17,13 +17,13 @@
    		<c:if test="${not empty importoTotaleAcquistato }">
 	   		<div class="row">
 		   			<div class="col-md-4">
-		   				<h5>Totale importo acquistato : &euro; ${importoTotaleAcquistato}</h5>
+		   				<h5>Totale importo acquistato : &euro; <fmt:formatNumber type="number" maxFractionDigits="4" value="${importoTotaleAcquistato}"/></h5>
 		   			</div>
 		   			<div class="col-md-4">
-		   				<h5>Totale quantita acquistata : ${quantitaTotaleAcquistata}</h5>
+		   				<h5>Totale quantita acquistata : <fmt:formatNumber type="number" maxFractionDigits="4" value="${quantitaTotaleAcquistata}"/></h5>
 		   			</div>
 		   			<div class="col-md-4">
-		   				<h5>Media prezzo : &euro; ${mediaPrezzo}</h5>
+		   				<h5>Media prezzo : &euro; <fmt:formatNumber type="number" maxFractionDigits="4" value="${mediaPrezzo}"/></h5>
 		   			</div>
 	   		</div>
    		</c:if>
@@ -148,6 +148,7 @@ $(document).ready(function() {
 	
 	 $('#example').DataTable({
 	        dom: 'Bfrtip',
+	        "order": [],
 	        buttons: [
 	            {
 	                text: 'Nuovo acquisto',
@@ -166,7 +167,12 @@ $(document).ready(function() {
 	        		
 	        		}
 	            }
-	        ]
+	        ],
+	        columnDefs: [ {
+	        	"targets": 0,
+	        	"orderable": false,
+
+	        	} ]
 	    });
 
 	 $('#btn_close_msg').click(function ()

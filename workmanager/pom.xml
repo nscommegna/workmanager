@@ -66,9 +66,12 @@
 			</plugin>
 		</plugins>
 		<!-- uva -->
-    	 <!-- <finalName>workmanager-api-docker</finalName> -->
+    	 <!-- <finalName>workmanager-api-docker</finalName>-->
+    	 <!-- uva tavola -->
+    	 <finalName>workmanager-uva-tavola-api-docker</finalName>
     	<!-- olive -->
-    	<finalName>workmanager-olive-api-docker</finalName>
+    	<!-- <finalName>workmanager-olive-api-docker</finalName> -->
+    	
 	</build>
 
 </project>

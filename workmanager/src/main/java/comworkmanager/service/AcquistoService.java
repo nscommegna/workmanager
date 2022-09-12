@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import comworkmanager.model.Acquisto;
@@ -24,11 +25,11 @@ public class AcquistoService {
 	}
 	
 	public List<Acquisto> findAllAcquisti(){
-		return acquistoRepo.findAll();
+		return acquistoRepo.findAll((Sort.by(Sort.Direction.DESC, "dataAcquisto")));
 	}
 	
 	public List<Acquisto> findAllAcquisti(AcquistoSpecs as){
-		return acquistoRepo.findAll(as);
+		return acquistoRepo.findAll(as,(Sort.by(Sort.Direction.DESC, "dataAcquisto")));
 	}
 
 	public Acquisto findAcquistoById(Long idAcquisto) {
@@ -42,6 +43,7 @@ public class AcquistoService {
 	public void delete(Acquisto acquisto) {
 		 acquistoRepo.delete(acquisto);
 	}
+	
 	
 	public Double getSumImportoAcquistato() {
 		List<Double> importi = new ArrayList<Double>();

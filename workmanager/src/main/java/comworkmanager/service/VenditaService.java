@@ -30,7 +30,7 @@ public class VenditaService {
 	}
 	
 	public List<Vendita> findAllVendite(VenditaSpecs as){
-		return venditaRepo.findAll(as);
+		return venditaRepo.findAll(as,Sort.by(Sort.Direction.DESC,"dataVendita"));
 	}
 
 	public Vendita findVenditaById(Long idVendita) {
